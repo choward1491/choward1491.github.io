@@ -1,6 +1,7 @@
 ---
 layout: post
 code: true
+google_analytics: true
 title: Searching Streams for the Unknown
 date:   2020-07-25 01:52:00 +0000
 categories: algorithms math randomization probability experimental theory
@@ -58,7 +59,7 @@ So to help us judge how useful this algorithm might be, let us see how the runti
 If we choose $X = 100$ and $\delta =$
 
 <pre data-enlighter-language="cpp">
-#include <iostream>
+#include "iostream"
 int main(int argc, char** argv){
 	std::cout << "Hi there!" << std::endl;
 	return 0;
