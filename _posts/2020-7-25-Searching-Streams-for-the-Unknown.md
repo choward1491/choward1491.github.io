@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Searching Streams for the Unknown
-mathjax: true
 date:   2020-07-25 01:52:00 +0000
 categories: algorithms math randomization probability experimental theory
 ---
