@@ -9,7 +9,7 @@ layout: default
       <div>
       <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
       {% if post.subtitle %}<h3 style="color:rgb(150, 150, 150);">{{post.subtitle}}</h3>{% endif %}
-      <p>By {{ post.author }} | {{ post.date | date: '%B %d, %Y' }}</p>
+      <h5>By {{ post.author }} | {{ post.date | date: '%B %d, %Y' }}</h5>
       {{ post.excerpt }}
   	  </div>
 
