@@ -1,7 +1,6 @@
 ---
 layout: post
 code: true
-google_analytics: true
 title: Searching Streams for the Unknown
 date:   2020-07-25 01:52:00 +0000
 categories: algorithms math randomization probability experimental theory
