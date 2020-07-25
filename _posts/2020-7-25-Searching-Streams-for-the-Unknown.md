@@ -1,3 +1,11 @@
+---
+layout: post
+title: Searching Streams for the Unknown
+mathjax: true
+date:   2020-07-25 01:52:00 +0000
+categories: algorithms math randomization probability experimental theory
+---
+
 ## An algorithmic approach
 
 In the modern climate of big data, it should not surprise anyone that we can be handed a dataset that is much too large to fit onto our personal computer's hard drive, let alone having the dataset all load into RAM. Yet, these limitations do not stop us from trying to crunch bigger datasets and harvest even more data! 
@@ -7,7 +15,7 @@ Generated using imgflip.comWith such a data abundance, how do we construct effic
 So one might ask, what is a streaming algorithm? To start, let us consider what a stream might be. A stream is a sequence of data that we start and then run through in the order of the sequence. In some contexts, one can only pass through a stream once while in other contexts one pass through the stream as many times as needed. A streaming algorithm generally corresponds to an algorithm that operates on a stream to compute or estimate some quantity. Commonly, streaming algorithms operate on the assumption that the stream has so much data within it that algorithms operating on the stream should use a logarithmic or constant amount of data relative to the stream size n. If we consider, as an example, a 1 Terabyte file of regression data we want to process to estimate some neural network parameters, it becomes clear having an algorithm that uses much less than 1 terabyte of space to run would be very useful to tackling such a problem. Thus, streaming algorithms can be extremely useful.
 
 
-###Catching the most common fish in the stream
+### Catching the most common fish in the stream
 
 To solidify the idea of a streaming algorithm, we are going to dive into tackling the following problem:
 
