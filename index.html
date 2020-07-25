@@ -6,9 +6,12 @@ layout: default
   {% for post in site.posts %}
     <article class="post">
 
+      <div>
       <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
+      {% if post.subtitle %}<h3 style="color:rgb(150, 150, 150);">{{post.subtitle}}</h3>{% endif %}
       <p>By {{ post.author }} | {{ post.date | date: '%B %d, %Y' }}</p>
       {{ post.excerpt }}
+  	  </div>
 
       <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
     </article>

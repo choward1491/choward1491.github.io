@@ -1,12 +1,11 @@
 ---
 layout: post
-code: true
 title: Searching Streams for the Unknown
+subtitle: An algorithmic approach
 date:   2020-07-25 01:52:00 +0000
+author: Christian
 categories: algorithms math randomization probability experimental theory
 ---
-
-## An algorithmic approach
 
 In the modern climate of big data, it should not surprise anyone that we can be handed a dataset that is much too large to fit onto our personal computer's hard drive, let alone having the dataset all load into RAM. Yet, these limitations do not stop us from trying to crunch bigger datasets and harvest even more data! 
 Generated using imgflip.comWith such a data abundance, how do we construct efficient algorithms to handle the limitations of our hardware? Depending on the sort of things you wish to compute with the data, the techniques one might use can be extensive. While one common technique is to use distributed parallel computing to tackle large problems with lots of data at scale. An orthogonal direction to this that we will focus on, though, is something referred to streaming algorithms. 
