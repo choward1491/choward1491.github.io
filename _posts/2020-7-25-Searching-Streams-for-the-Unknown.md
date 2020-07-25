@@ -39,15 +39,15 @@ This algorithm effectively chooses a representative at random over and over unti
 
 Recall that the assumption built into the problem is that there exists exactly one number that will appear in the stream at least $X$ times. This implies that when we randomly choose a representative, the probability we do not choose the desired number is at most $(1-X/n)$. Okay, so now what we would like to figure out is what the probability is of not choosing our desired number $k$ times in a row. Since each time we choose a random representative is independent of any other times, this implies that this probability is at most
 
-\[\text{Pr}\left\lbrace \right\rbrace \leq \left(1 - X/n\right)^k \leq \exp\left(-\frac{X k}{n}\right)\]
+$$\text{Pr}\left\lbrace \right\rbrace \leq \left(1 - X/n\right)^k \leq \exp\left(-\frac{X k}{n}\right)$$
 
 Now the above probability corresponds to a worst case probability that our algorithm does not finish in $k$ iterations. Suppose we want to choose $k$ such that the probability we do not finish in $k$ iterations is at most $\delta$. This implies we want to choose $k$ such that the following inequality holds
 
-\[\exp\left(-\frac{X k}{n}\right) \leq \delta \]
+$$ \exp\left(-\frac{X k}{n}\right) \leq \delta $$
 
 which can be satisfied by choosing $k$ equal the below expression:
 
-\[k = \left(\frac{\log(1/\delta)}{X}\right) n\]
+$$ k = \left(\frac{\log(1/\delta)}{X}\right) n $$
 
 
 Now notice that this choice of $k$ grows as we decrease $\delta$, which makes sense because smaller choices of $\delta$ give us stronger confidence that our algorithm will terminate in $k$ iterations. We can also see that the more times our desired number appears, which is reflected by the number $X$, the smaller we should expect our runtime to be. This clearly makes sense since the larger $X$ is, the larger our chance is of randomly choosing our desired number as a representative. 
