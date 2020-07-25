@@ -271,7 +271,14 @@ nav {
   }
 
   div > h1 {
-    margin-bottom: 0.2em;
+    margin-bottom: 0em;
+    margin-top: 0em;
+  }
+  div > h2 {
+    margin-top: 0em;
+  }
+  div > h5 {
+    margin-top: 0em;
   }
 }
 
