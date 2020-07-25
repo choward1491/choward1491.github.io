@@ -5,9 +5,9 @@ code: true
 
 <article class="post">
   <div>
-      <h1>{{ post.title }}</h1>
-      {% if post.subtitle %}<h2>{{post.subtitle}}</h2>{% endif %}
-      <h5>By {{ post.author }} | {{ post.date | date: '%B %d, %Y' }}</h5>
+      <h1>{{ page.title }}</h1>
+      {% if page.subtitle %}<h2>{{page.subtitle}}</h2>{% endif %}
+      <h5>By {{ page.author }} | {{ page.date | date: '%B %d, %Y' }}</h5>
   </div>
 
   <div class="entry">
