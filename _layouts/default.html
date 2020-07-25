@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    {% include mathjax.html %}
     <title>{% if page.title %}{{ page.title}} – {% endif %}{{ site.browser_name }} – {{ site.description }}</title>
 
     {% include meta.html %}
@@ -12,11 +11,13 @@
 
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
     <link rel="alternate" type="application/rss+xml" title="{{ site.browser_name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
+    {% include mathjax.html %}
 
     <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
   </head>
 
   <body>
+
     <div class="wrapper-masthead">
       <div class="container">
         <header class="masthead clearfix">
