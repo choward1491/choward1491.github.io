@@ -1,4 +1,21 @@
-{% if page.mathjax %}
+
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll("script[type='math/tex']").forEach(function(el){
+    el.outerHTML = "\\(" + el.textContent + "\\)";
+  });
+  document.querySelectorAll("script[type='math/tex; mode=display']").forEach(function(el){
+    el.outerHTML = "\\[" + el.textContent + "\\]";
+  });
+  var script = document.createElement('script');
+  script.src = "https://polyfill.io/v3/polyfill.min.js?features=es6";
+  document.head.appendChild(script);
+  var script2 = document.createElement('script');
+  script2.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js";
+}, false);
+</script>
+<!--
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-{% endif %}
+-->
+
