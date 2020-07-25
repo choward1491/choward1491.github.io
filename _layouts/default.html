@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
     <link rel="alternate" type="application/rss+xml" title="{{ site.browser_name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
+    {% include code_highlighter_css.html %}
 
     <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
     {% include mathjax.html %}
@@ -49,5 +50,6 @@
     </div>
 
     {% include analytics.html %}
+    {% include code_highlighter_js.html %}
   </body>
 </html>

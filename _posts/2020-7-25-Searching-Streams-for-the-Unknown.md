@@ -55,3 +55,11 @@ So to help us judge how useful this algorithm might be, let us see how the runti
 
 
 If we choose $X = 100$ and $\delta =$
+
+<pre>
+#include <iostream>
+int main(int argc, char** argv){
+	std::cout << "Hi there!" << std::endl;
+	return 0;
+}
+</pre>
