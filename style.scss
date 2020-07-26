@@ -337,7 +337,7 @@ footer {
 .definition {
     display: block;
     margin: 12px 0;
-    font-style: normal;
+    font-style: italic;
 }
 
 .theorem {
@@ -360,7 +360,7 @@ div.theorem {
     border-width: 2px;
     border-style: solid;
     position:relative;
-    text-align: center;
+    text-align: left;
 }
 
 .theorem_name {
@@ -399,7 +399,7 @@ div.lemma {
     border-width: 2px;
     border-style: solid;
     position:relative;
-    text-align: center;
+    text-align: left;
 }
 
 .lemma_name {
@@ -438,7 +438,7 @@ div.defn {
     border-width: 2px;
     border-style: solid;
     position:relative;
-    text-align: center;
+    text-align: left;
 }
 
 .defn_name {
