@@ -68,6 +68,40 @@ int main(int argc, char** argv){
 }
 </pre>
 
-<div class="theorem" text="Local Lovacz Lemma">
-For some set of stuff, do the following
+<div class="theorem" >
+    <div class="theorem_name" text="My Theorem"></div>
+
+    Suppose we have some sequence $S = (s_1, s_2, \cdots, s_n)$ and we would like to find the average value $\mu_S$ of this sequence. This can be done using the expression
+
+    $$\mu_S = \frac{1}{n} \sum_{i=1}^n s_i$$
+
+    Further, we can see that this is clearly awesome.
+</div>
+
+<div class="lemma" >
+    <div class="lemma_name" text="My Super Cool JL Lemma"></div>
+
+    <p>
+    Hi there person sfdosdi weoi so fso ose go aoirg oa oigoa ofg woe iog ao oag oa rogo ao ao o goe rgia oo rg o aoweig oi ao o rigowe jfo oag oa gorgj a oa gjow go oag oaiw egijefo iwoej goaeigj aoij goij gaio gaoeijf aoeiga riguhairuhgairugha oghao g oir ga.
+    </p>
+
+    <p>
+    oiwegj owe gowej foiej owiej gowej gowei gjoweig jwoeijf ewofjewg owegjweog wegjew gowgjiew goi weogjweog oiwgj ewiog owejg weiog jwegj eowg jweogjewjogj weogjweg jw gowg weogjowegj weig jw gaog jwoig woejga iegja oweg jaog ajgaowiegjawo igj ogj ao.
+    </p>
+</div>
+
+<div class="proof">
+    Suppose that I have some interesting thing to say here. By assumption, it is interesting and correct. We are done.
+</div>
+
+<div class="defn" >
+    <div class="defn_name" text="Vector Space"></div>
+
+    <p>
+    Hi there person sfdosdi weoi so fso ose go aoirg oa oigoa ofg woe iog ao oag oa rogo ao ao o goe rgia oo rg o aoweig oi ao o rigowe jfo oag oa gorgj a oa gjow go oag oaiw egijefo iwoej goaeigj aoij goij gaio gaoeijf aoeiga riguhairuhgairugha oghao g oir ga.
+    </p>
+
+    <p>
+    oiwegj owe gowej foiej owiej gowej gowei gjoweig jwoeijf ewofjewg owegjweog wegjew gowgjiew goi weogjweog oiwgj ewiog owejg weiog jwegj eowg jweogjewjogj weogjweg jw gowg weogjowegj weig jw gaog jwoig woejga iegja oweg jaog ajgaowiegjawo igj ogj ao.
+    </p>
 </div>
