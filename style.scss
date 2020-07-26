@@ -321,6 +321,9 @@ footer {
     font-weight: bold;
     font-style: normal;
 }
+.theorem[text]:before {
+content: “Theorem (” attr(text) “). “;
+}
 .lemma {
     display: block;
     margin: 12px 0;
@@ -330,6 +333,9 @@ footer {
     content: "Lemma.";
     font-weight: bold;
     font-style: normal;
+}
+.lemma[text]:before {
+content: Lemma (” attr(text) “). “;
 }
 .proof {
     display: block;
