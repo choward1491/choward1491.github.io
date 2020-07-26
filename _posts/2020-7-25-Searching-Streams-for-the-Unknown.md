@@ -68,6 +68,6 @@ int main(int argc, char** argv){
 }
 </pre>
 
-<div class=theorem text="Local Lovacz Lemma">
+<div class="theorem" text="Local Lovacz Lemma">
 For some set of stuff, do the following
 </div>
