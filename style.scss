@@ -356,8 +356,7 @@ div.theorem {
     border-color: rgb(102, 0, 204); 
     background-color: rgb(218, 179, 255);
     width: fit-content;
-    min-width: 40%;
-    max-width: 60%;
+    min-width: 80%;
     border-width: 2px;
     border-style: solid;
     position:relative;
@@ -396,8 +395,7 @@ div.lemma {
     border-color: rgb(255, 102, 0);
     background-color: rgb(255, 209, 179);
     width: fit-content;
-    min-width: 40%;
-    max-width: 60%;
+    min-width: 80%;
     border-width: 2px;
     border-style: solid;
     position:relative;
@@ -436,8 +434,7 @@ div.defn {
     border-color: rgb(0, 204, 0);
     background-color: rgb(179, 255, 179);
     width: fit-content;
-    min-width: 40%;
-    max-width: 60%;
+    min-width: 80%;
     border-width: 2px;
     border-style: solid;
     position:relative;
