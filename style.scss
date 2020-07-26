@@ -335,7 +335,7 @@ content: “Theorem (” attr(text) “). “;
     font-style: normal;
 }
 .lemma[text]:before {
-content: Lemma (” attr(text) “). “;
+content: "Lemma (” attr(text) “). “;
 }
 .proof {
     display: block;
