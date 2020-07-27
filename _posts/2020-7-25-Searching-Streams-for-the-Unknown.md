@@ -110,16 +110,40 @@ Now let us consider the correctness for the randomized number search algorithm. 
 
 #### Some Analysis
 
-Recall that the assumption built into the problem is that there exists exactly one number that will appear in the stream at least $X$ times. This implies that when we randomly choose a representative, the probability we do _not_ choose the desired number is at most $(1-X/n)$. Now suppose our algorithm does $k$ iterations of the main loop. Let us call $E_{k}$ the event that none of these $k$ iterations find the desired number using the randomly sampled representative. Since each iteration is independent of all others, this implies that this probability is at most
+##### Average Performance
+
+Recall that the assumption built into the problem is that there exists exactly one number that will appear in the stream at least $X$ times. This implies that when we randomly choose a representative, the probability we do choose the desired number is at least $X/n$. With this fact, we have the following result
+
+<div class="theorem" >
+    <div class="theorem_name" text="Average Runtime"></div>
+
+    Suppose we are given an input instance $(S,X)$ to the randomized number search algorithm, where $S$ is a size $n$ stream. The expected number of times we will loop over the stream $S$ is at most
+
+    $$\left(\frac{2}{X}\right) n$$
+</div>
+<div class="proof">
+	As noted before, the probability we randomly choose a representative that is the desired number is at least $X/n$. Suppose the exact probability of successfully choosing the number of the representative is $p$, then we can model the number of iterations $I$ of our main loop as a geometric random variable with probability of success equal to $p$, denoted $G(p)$. Since $I \sim G(p)$, the expected value of $I$ is equal to $1/p$ and can be upper bounded by
+
+	$$\mathbb{E}\left(I\right) = \frac{1}{p} \leq \frac{n}{X}$$
+
+	At each iteration, we loop over the stream $S$ exactly $2$ times, implying that the expected number of times we will loop over the stream's contents is at most
+
+	$$\left(\frac{2}{X}\right) n$$
+</div>
+
+
+##### High Probability Worst-case Performance
+
+Again recalling our desired number is in the stream at least $X$ times, this implies that at some iteration the representative chosen randomly is _not_ the desired number with probability at most $(1 - X/n)$. Now suppose our algorithm does $k$ iterations of the main loop. Let us call $E_{k}$ the event that none of these $k$ iterations find the desired number using the randomly sampled representative. Since each iteration is independent of all others, this implies that this probability is at most
 
 $$ \begin{align}
 \text{Pr}\left\lbrace E_k \right\rbrace &\leq \left(1 - X/n\right)^k 
 \end{align}$$
 
-Now the above probability corresponds to a _worst case_ probability that our algorithm does not finish in $k$ iterations. This fact leads us to the following result
+Now the above probability corresponds to a _worst-case_ probability that our algorithm does not finish in $k$ iterations. This fact leads us to the following result
 
 <div class="theorem" >
-    <div class="theorem_name" text="Algorithm Runtime"></div>
+    <div class="theorem_name" text="Worst-case Runtime"></div>
 
     Define $\delta > 0$ as the maximum allowable probability that our randomized algorithm does <strong>not</strong> find the desired number within $k$ iterations of its loop. If we choose 
 
@@ -147,7 +171,11 @@ $$2\left(\frac{\log(1/\delta)}{X}\right) n$$
 
 Now the choice of $\delta$ is related to how confident we want to be that our bound holds true. Smaller values for $\delta$ correspond to higher confidence, which on observation makes the upper bound on the number of times we loop over the stream grow. This makes sense because if I wanted to be more confident in an upper bound, I would make it larger to be more conservative. Another notable observation is that as $X$ grows, the number of iterations we will do quickly shrinks. This clearly makes sense since the larger $X$ is, the larger our chance is of randomly choosing our desired number as a representative.
 
-So to help us judge how useful this algorithm might be, let us see how the runtime is for different values of $X$ and $\delta$. In particular, recall that with each iteration of the algorithm we do $2$ passes of the stream. This implies with probability at least $1-\delta$ that the number of times we pass through the stream is
+An interesting thing to observe is that if $\left(\frac{\log(1/\delta)}{X}\right) < 1$, then with probability at most $1 - \delta$ this algorithm has a worst-case runtime that is faster than the naive algorithm's worst-case runtime. This is an important observation because this implies there are potentially many instances where this algorithm can out perform the naive algorithm. For example, if we choose $\delta = 10^{-10}$, then inputs where $X > 10 \log(10) > 23$ ensure with probability at least $1 - 10^{-10}$ that our worst-case runtime beats the worst-case runtime for the naive algorithm.
+
+### Experimental Comparisons
+
+To ground the differences between both algorithm in reality, we will showcase some experimental results based on a C++ implementation. So to help us judge how useful this algorithm might be, let us see how the runtime is for different values of $X$ and $\delta$. In particular, recall that with each iteration of the algorithm we do $2$ passes of the stream. This implies with probability at least $1-\delta$ that the number of times we pass through the stream is
 
 
 If we choose $X = 100$ and $\delta =$
@@ -159,67 +187,3 @@ int main(int argc, char** argv){
 	return 0;
 }
 </pre>
-
-<div class="theorem" >
-    <div class="theorem_name" text="My Theorem"></div>
-
-    Suppose we have some sequence $S = (s_1, s_2, \cdots, s_n)$ and we would like to find the average value $\mu_S$ of this sequence. This can be done using the expression
-
-    $$\mu_S = \frac{1}{n} \sum_{i=1}^n s_i$$
-
-    Further, we can see that this is clearly awesome.
-</div>
-
-<div class="lemma" >
-    <div class="lemma_name" text="My Super Cool JL Lemma"></div>
-
-    <p>
-    Hi there person sfdosdi weoi so fso ose go aoirg oa oigoa ofg woe iog ao oag oa rogo ao ao o goe rgia oo rg o aoweig oi ao o rigowe jfo oag oa gorgj a oa gjow go oag oaiw egijefo iwoej goaeigj aoij goij gaio gaoeijf aoeiga riguhairuhgairugha oghao g oir ga.
-    </p>
-
-    <p>
-    oiwegj owe gowej foiej owiej gowej gowei gjoweig jwoeijf ewofjewg owegjweog wegjew gowgjiew goi weogjweog oiwgj ewiog owejg weiog jwegj eowg jweogjewjogj weogjweg jw gowg weogjowegj weig jw gaog jwoig woejga iegja oweg jaog ajgaowiegjawo igj ogj ao.
-    </p>
-</div>
-
-<div class="proof">
-    Suppose that I have some interesting thing to say here. By assumption, it is interesting and correct. We are done.
-</div>
-
-<div class="defn" >
-    <div class="defn_name" text="Vector Space"></div>
-
-    <p>
-    Hi there person sfdosdi weoi so fso ose go aoirg oa oigoa ofg woe iog ao oag oa rogo ao ao o goe rgia oo rg o aoweig oi ao o rigowe jfo oag oa gorgj a oa gjow go oag oaiw egijefo iwoej goaeigj aoij goij gaio gaoeijf aoeiga riguhairuhgairugha oghao g oir ga.
-    </p>
-
-    <p>
-    oiwegj owe gowej foiej owiej gowej gowei gjoweig jwoeijf ewofjewg owegjweog wegjew gowgjiew goi weogjweog oiwgj ewiog owejg weiog jwegj eowg jweogjewjogj weogjweg jw gowg weogjowegj weig jw gaog jwoig woejga iegja oweg jaog ajgaowiegjawo igj ogj ao.
-    </p>
-</div>
-
-<div class="algorithm">
-    <div class="algorithm_name" text="Newton's Method"></div>
-    <div class="for_loop"> $i$ from $1$ to $n$
-        <ul>
-            <li>Compute Jacobian of $f(x)$</li>
-            <li>Compute Newton step</li>
-            <li>$x \leftarrow x + \Delta x$</li>
-            <li>
-                <div class="if_cond"> $|x| < \epsilon$
-                    <ul>
-                        <li>
-                            <div class="return">$x$</div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="else_cond">
-                    <ul><li>
-                        <div class="continue"></div>
-                    </li></ul>
-                </div>
-                <div class="endif"></div>
-            </li>
-        </ul>
-    </div>
-</div>
