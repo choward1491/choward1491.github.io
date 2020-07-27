@@ -105,3 +105,29 @@ int main(int argc, char** argv){
     oiwegj owe gowej foiej owiej gowej gowei gjoweig jwoeijf ewofjewg owegjweog wegjew gowgjiew goi weogjweog oiwgj ewiog owejg weiog jwegj eowg jweogjewjogj weogjweg jw gowg weogjowegj weig jw gaog jwoig woejga iegja oweg jaog ajgaowiegjawo igj ogj ao.
     </p>
 </div>
+
+<div class="algorithm">
+    <div class="algorithm_name" text="Newton's Method"></div>
+    <div class="for_loop"> i from 1 to n
+        <ul>
+            <li>Compute Jacobian of f(x)</li>
+            <li>Compute Newton step</li>
+            <li>x = x + dx</li>
+            <li>
+                <div class="if_cond"> x < epsilon
+                    <ul>
+                        <li>
+                            <div class="return">x</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="else_cond">
+                    <ul><li>
+                        <div class="continue"></div>
+                    </li></ul>
+                </div>
+                <div class="endif"></div>
+            </li>
+        </ul>
+    </div>
+</div>
