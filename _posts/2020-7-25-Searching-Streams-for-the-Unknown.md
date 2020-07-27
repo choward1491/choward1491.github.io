@@ -139,9 +139,11 @@ Now the above probability corresponds to a _worst case_ probability that our alg
 	which implies we can just take the minimum value of this and know that with probability at least $1 - \delta$, our algorithm finishes within $k = \left(\frac{\log(1/\delta)}{X}\right) n$ iterations.
 </div>
 
+---
+
 A corollary to the above theorem tells us that with probability at least $1 - \delta$, the number of times we loop over the stream $S$ is at most
 
-$$\left(\frac{2\log(1/\delta)}{X}\right) n$$
+$$2\left(\frac{\log(1/\delta)}{X}\right) n$$
 
 Now the choice of $\delta$ is related to how confident we want to be that our bound holds true. Smaller values for $\delta$ correspond to higher confidence, which on observation makes the upper bound on the number of times we loop over the stream grow. This makes sense because if I wanted to be more confident in an upper bound, I would make it larger to be more conservative. Another notable observation is that as $X$ grows, the number of iterations we will do quickly shrinks. This clearly makes sense since the larger $X$ is, the larger our chance is of randomly choosing our desired number as a representative.
 
