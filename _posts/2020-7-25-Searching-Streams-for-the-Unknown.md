@@ -29,7 +29,6 @@ Before we get to the more interesting algorithm, let us consider what might be v
     <div class="algorithm_name" text="Naive Number Search"></div>
     <div class="algo_input">$(S, X)$</div>
     <div class="algo_output">$(r)$</div>
-    <p>$i := 1$ <span class="my_comment">stream index</span></p>
     <p>$c := 0$ <span class="my_comment">counter</span></p>
     <p>$r := 1$ <span class="my_comment">representative variable</span></p>
     <div class="for_loop"> $i$ from $1$ to $n$
@@ -66,6 +65,63 @@ It is pretty clear that this algorithm has us trying every type of number in the
 The previous algorithm is what we would consider deterministic, meaning that for the same input the algorithm will return the same answer in the same amount of runtime. In this case, we will consider a Las Vegas styled randomized algorithm, meaning for the same input the algorithm will return the same answer but its runtime can vary. This algorithm is going to be very similar to the previous one, but the twist leads to some interesting results.
 
 At the start of this algorithm, on input of the stream $S$ and the value $X$, we will enter a loop that only ends if we find a representative $r$ from the stream that appears at least $X$ times in the stream. From there, we will pass through the stream once and uniformly at random choose a representative $r$ from the stream. Note that this random selection of the representative is really the defining difference between this algorithm and the previous one.
+
+<div class="algorithm">
+    <div class="algorithm_name" text="Uniform Random Sample"></div>
+    <div class="algo_input">$(S)$</div>
+    <div class="algo_output">$(r)$</div>
+    <p>$r := 1$ <span class="my_comment">representative variable</span></p>
+    <p>$u := 0$ <span class="my_comment">minimum weight</span></p>
+    <div class="for_loop"> $s_i$ in $S = (s_1, s_2, \cdots, s_n)$
+        <ul>
+            <li>Randomly sample $w$ from interval $[0,1]</li>
+            <li>
+                <div class="if_cond"> $w > u$
+                    <ul>
+                    	<li>$u \leftarrow w$</li>
+                    	<li>$r \leftarrow s_i$</li>
+                    </ul>
+                </div>
+                <div class="endif"></div>
+            </li>
+        </ul>
+    </div>
+    <div class="return">$(r)$ <span class="my_comment">return random representative</span></div>
+</div>
+
+<div class="algorithm">
+    <div class="algorithm_name" text="Randomized Number Search"></div>
+    <div class="algo_input">$(S, X)$</div>
+    <div class="algo_output">$(r)$</div>
+    <p>$i := 1$ <span class="my_comment">stream index</span></p>
+    <p>$c := 0$ <span class="my_comment">counter</span></p>
+    <p>$r := 1$ <span class="my_comment">representative variable</span></p>
+    <div class="for_loop"> $i$ from $1$ to $n$
+        <ul>
+            <li>Reset stream $S$</li>
+            <li>$r \leftarrow \text{UniformRandomSample}(S)$ <span class="my_comment">randomly choose representative</span></li>
+            <li>Reset stream $S$</li>
+            <li>Set $c \leftarrow 0$ </li>
+            <li>Read in stream $S$ and set $c \leftarrow c + 1$ for each value that matches $r$</li>
+            <li>
+                <div class="if_cond"> $c \geq X$
+                    <ul>
+                        <li>
+                            <div class="return">$(r)$</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="else_cond">
+                    <ul>
+                    	<li><div class="continue"></div></li>
+                    </ul>
+                </div>
+                <div class="endif"></div>
+            </li>
+        </ul>
+    </div>
+    <div class="return">$(\text{NaN})$ <span class="my_comment">if no number exists, return not a number</span></div>
+</div>
 
 Now to achieve selecting a representative at random by streaming, we start reading from the stream and assign the ith number a random value uniformly at random from the interval $[0,1]$, over time keeping which ever number ends up with the largest randomly assigned value. This works because the probability the $i^{th}$ number in the stream gets the maximum value is equal to $1/n$, where $n$ is again the size of the stream. From here we then reset the stream and, starting from the beginning, count how many times we see our representative $r$ in the stream. If we reach the end of the stream and we have seen $r$ at least $X$ times, then we know our representative $r$ corresponds to the unique number we are looking for and so we return that and we are done. If we have instead seen $r$ less than $X$ times, then we know we have not found the desired number yet and we go back to the start of the loop so we can choose a random representative and repeat the process.
 
