@@ -573,11 +573,15 @@ $comment-color: rgb(0, 220, 255);
 }
 
 .for_loop ul {
-    list-style-type:none;
+    list-style-type: circle;
     margin-top: 0px;
     margin-bottom: 0px;
     padding-top: 0.1em;
     padding-bottom: 0.1em;
+}
+
+.no_mark {
+  list-style-type: none;
 }
 
 .if_cond:before {
