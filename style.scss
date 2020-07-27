@@ -477,6 +477,7 @@ div.defn {
 /* Algorithm stuff */
 $primary-algo-color: rgb(0, 74, 194);
 $keyword-color: rgb(0, 39, 102);
+$comment-color: rgb(255, 204, 0);
 
 .algorithm {
     display: block;
@@ -518,6 +519,39 @@ $keyword-color: rgb(0, 39, 102);
     font-weight: bold;
     font-style: normal;
     text-align: left;
+}
+
+.input:before {
+    content: "input ";
+    font-style: normal;
+    font-weight: bold;
+    color: $keyword-color;
+}
+
+.ouput:before {
+    content: "output ";
+    font-style: normal;
+    font-weight: bold;
+    color: $keyword-color;
+}
+
+.my_comment {
+  font-style: normal;
+  color: $comment-color;
+}
+
+.my_comment:before {
+    content: "/* ";
+    font-style: normal;
+    font-weight: bold;
+    color: $comment-color;
+}
+
+.my_comment:after {
+    content: " */";
+    font-style: normal;
+    font-weight: bold;
+    color: $comment-color;
 }
 
 .for_loop:before {

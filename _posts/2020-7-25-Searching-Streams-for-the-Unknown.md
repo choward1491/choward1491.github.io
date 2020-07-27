@@ -28,6 +28,40 @@ Describe an algorithm that can find this unique number and describe the number o
 ### Naive Algorithm
 Before we get to the more interesting algorithm, let us consider what might be viewed as the more naive algorithm to handle this problem. At the start of the algorithm, on input of the stream $S$ and the value $X$, we first initialize some counter $i$ to $i = 1$. From there, for any value of $i$, we first read the stream $S$ until we hit the ith number in the stream and set this value as our representative $r$. We then reset the stream and, starting from the beginning, count how many times we see our representative $r$ in the stream. If we reach the end of the stream and we have seen $r$ at least $X$ times, then we know our representative $r$ corresponds to the unique number we are looking for and so we return that and we are done. If we have instead seen $r$ less than $X$ times, then we know we have not found the desired number yet, and so we set $i \leftarrow i + 1$ and restart finding a new representative.
 
+<div class="algorithm">
+    <div class="algorithm_name" text="Naive Number Search"></div>
+    <div class="input">$(S, X)$</div>
+    <div class="output">$(r)$</div>
+    <p>$i := 1$ <span class="comment">stream index</span></p>
+    <p>$c := 0$ <span class="comment">counter</span></p>
+    <p>$r := 1$ <span class="comment">representative variable</span></p>
+    <div class="for_loop"> $i$ from $1$ to $n$
+        <ul>
+            <li>Reset stream $S$</li>
+            <li>Read in stream $S$ until we reach element $s_i$</li>
+            <li>Set $r \leftarrow s_i$</li>
+            <li>Reset stream $S$</li>
+            <li>Set $c := 0$ </li>
+            <li>Read in stream $S$ and set $c \leftarrow c + 1$ for each value that matches $r$</li>
+            <li>
+                <div class="if_cond"> $c \geq X$
+                    <ul>
+                        <li>
+                            <div class="return">$(r)$</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="else_cond">
+                    <ul>
+                    	<li><div class="continue"></div></li>
+                    </ul>
+                </div>
+                <div class="endif"></div>
+            </li>
+        </ul>
+    </div>
+</div>
+
 It is pretty clear that this algorithm has us trying every type of number in the stream and seeing if its frequency is at least $X$, implying we will eventually find our desired number. Since for each value of $i$ we have to pass through the stream $2$ times, once to get the $i^{th}$ number and once to compute the frequency of that number, this implies in the worst case we will pass through the stream at most $2n$ times. Seems like a simple enough algorithm! So can we do any better?
 
 ### A Randomized Algorithm
