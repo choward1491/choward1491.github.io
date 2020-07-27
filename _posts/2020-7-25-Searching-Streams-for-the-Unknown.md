@@ -16,17 +16,14 @@ With such a data abundance, how do we construct efficient algorithms to handle t
 ### Streaming Algorithm Basics
 So one might ask, what is a streaming algorithm? To start, let us consider what a stream might be. A stream is a sequence of data that we start and then run through in the order of the sequence. In some contexts, one can only pass through a stream once while in other contexts one pass through the stream as many times as needed. A streaming algorithm generally corresponds to an algorithm that operates on a stream to compute or estimate some quantity. Commonly, streaming algorithms operate on the assumption that the stream has so much data within it that algorithms operating on the stream should use a logarithmic or constant amount of data relative to the stream size n. If we consider, as an example, a 1 Terabyte file of regression data we want to process to estimate some neural network parameters, it becomes clear having an algorithm that uses much less than 1 terabyte of space to run would be very useful to tackling such a problem. Thus, streaming algorithms can be extremely useful.
 
-
 ### Catching the most common fish in the stream
 
 To solidify the idea of a streaming algorithm, we are going to dive into tackling the following problem:
 
-Suppose we are given a stream $S = (x_1, x_2, \cdots, x_n)$ of size $n$ where each variable $x_i$ corresponds to an integer. We are then told that there exists a unique number that is the most common among all numbers that appear in the stream and appears at least $X$ times.
-
-Describe an algorithm that can find this unique number and describe the number of passes this algorithm requires through the stream of data, given you are handed the value $X$.
+> Suppose we are given a stream $S = (s_1, s_2, \cdots, s_n)$ of size $n$ where each variable $s_i$ corresponds to real number. We are then told that there exists a unique number that appears at least $X$ times in the stream. Describe an algorithm that can find this unique number and describe the number of passes this algorithm requires through the stream of data, given you are handed the value $X$.
 
 ### Naive Algorithm
-Before we get to the more interesting algorithm, let us consider what might be viewed as the more naive algorithm to handle this problem. At the start of the algorithm, on input of the stream $S$ and the value $X$, we first initialize some counter $i$ to $i = 1$. From there, for any value of $i$, we first read the stream $S$ until we hit the ith number in the stream and set this value as our representative $r$. We then reset the stream and, starting from the beginning, count how many times we see our representative $r$ in the stream. If we reach the end of the stream and we have seen $r$ at least $X$ times, then we know our representative $r$ corresponds to the unique number we are looking for and so we return that and we are done. If we have instead seen $r$ less than $X$ times, then we know we have not found the desired number yet, and so we set $i \leftarrow i + 1$ and restart finding a new representative.
+Before we get to the more interesting algorithm, let us consider what might be viewed as the more naive algorithm to handle this problem. The main idea is going to be deterministically looping over the stream, where at iteration $i$ we set the $i^{th}$ value $s_i$ as a representative and then loop over the stream $S$ and count the number of times this number appears. If this number appears at least $X$ times, we know we have found the desired number and we can terminate. Otherwise, we increment $i$ and continue our search. The explicit pseudocode for this algorithm is defined below.
 
 <div class="algorithm">
     <div class="algorithm_name" text="Naive Number Search"></div>
@@ -63,7 +60,7 @@ Before we get to the more interesting algorithm, let us consider what might be v
     <div class="return">$(\text{NaN})$ <span class="my_comment">if no number exists, return not a number</span></div>
 </div>
 
-It is pretty clear that this algorithm has us trying every type of number in the stream and seeing if its frequency is at least $X$, implying we will eventually find our desired number. Since for each value of $i$ we have to pass through the stream $2$ times, once to get the $i^{th}$ number and once to compute the frequency of that number, this implies in the worst case we will pass through the stream at most $2n$ times. Seems like a simple enough algorithm! So can we do any better?
+It is pretty clear that this algorithm has us trying every type of number in the stream and seeing if its frequency is at least $X$, implying we will eventually find our desired number if it exists. Since for each value of $i$ we have to pass through the stream $2$ times, once to get the $i^{th}$ number as a representative and once to compute the frequency of that number, this implies in the worst case we will pass through the stream at most $2n$ times. Further, we can see that the only extra space we use other than the inputs is a few counters and a temporary number representing the representative. This implies our space complexity is at most $O(\log(n))$. So this algorithm is simple, correct, and has a small space footprint. Can we do any better?
 
 ### A Randomized Algorithm
 The previous algorithm is what we would consider deterministic, meaning that for the same input the algorithm will return the same answer in the same amount of runtime. In this case, we will consider a Las Vegas styled randomized algorithm, meaning for the same input the algorithm will return the same answer but its runtime can vary. This algorithm is going to be very similar to the previous one, but the twist leads to some interesting results.
