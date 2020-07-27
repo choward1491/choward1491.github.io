@@ -41,7 +41,7 @@ Before we get to the more interesting algorithm, let us consider what might be v
             <li>Read in stream $S$ until we reach element $s_i$</li>
             <li>Set $r \leftarrow s_i$</li>
             <li>Reset stream $S$</li>
-            <li>Set $c := 0$ </li>
+            <li>Set $c \leftarrow 0$ </li>
             <li>Read in stream $S$ and set $c \leftarrow c + 1$ for each value that matches $r$</li>
             <li>
                 <div class="if_cond"> $c \geq X$
