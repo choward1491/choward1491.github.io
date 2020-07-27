@@ -110,10 +110,10 @@ Now let us consider the correctness for the randomized number search algorithm. 
 
 #### Some Analysis
 
-Recall that the assumption built into the problem is that there exists exactly one number that will appear in the stream at least $X$ times. This implies that when we randomly choose a representative, the probability we do _not_ choose the desired number is at most $(1-X/n)$. Now suppose our algorithm does $k$ iterations of the main loop. What is the probability that none of these iterations result in the randomly chosen representative being the desired number? Since each iteration is independent of all others, this implies that this probability is at most
+Recall that the assumption built into the problem is that there exists exactly one number that will appear in the stream at least $X$ times. This implies that when we randomly choose a representative, the probability we do _not_ choose the desired number is at most $(1-X/n)$. Now suppose our algorithm does $k$ iterations of the main loop. Let us call $E_{k}$ the event that none of these iterations find the desired number using the randomly sampled representative. Since each iteration is independent of all others, this implies that this probability is at most
 
 $$ \begin{align}
-\text{Pr}\left\lbrace \right\rbrace &\leq \left(1 - X/n\right)^k 
+\text{Pr}\left\lbrace E_k \right\rbrace &\leq \left(1 - X/n\right)^k 
 \end{align}$$
 
 Now the above probability corresponds to a _worst case_ probability that our algorithm does not finish in $k$ iterations. This fact leads us to the following result
@@ -121,14 +121,14 @@ Now the above probability corresponds to a _worst case_ probability that our alg
 <div class="theorem" >
     <div class="theorem_name" text="Algorithm Runtime"></div>
 
-    Define $\delta > 0$ as the maximum allowable probability that our randomized algorithm does **not** find the desired number within $k$ iterations of its loop. If we choose 
+    Define $\delta > 0$ as the maximum allowable probability that our randomized algorithm does <strong>not</strong> find the desired number within $k$ iterations of its loop. If we choose 
 
     $$k = \left(\frac{\log(1/\delta)}{X}\right) n$$
 
     then with probability at least $1 - \delta$ our algorithm terminates within $k$ iterations.
 </div>
 <div class="proof">
-	So to prove this theorem, we note we are given a maximum allowable probability $\delta$ that our algorithm fails to finish within $k$ iterations. Recalling from before that the probability our algorithm does not finish within $k$ iterations is at most $(1 - X/n)^k$, and noting the well known identity stating that $1 - x \leq \exp(-x)$ for all $x \in \mathbb{R}$, we can find that finding $k$ such that
+	So to prove this theorem, we note we are given a maximum allowable probability $\delta$ that our algorithm fails to finish within $k$ iterations. Let us recall from before that the probability our algorithm does not finish within $k$ iterations is at most $(1 - X/n)^k$ and further note the well known identity stating that $1 - x \leq \exp(-x)$ for all $x \in \mathbb{R}$. With these together, choosing $k$ to satisfy the inequality
 
 	$$\exp\left(-\frac{Xk}{n}\right) \leq \delta$$
 
