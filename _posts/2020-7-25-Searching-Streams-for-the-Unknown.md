@@ -110,7 +110,7 @@ Now let us consider the correctness for the randomized number search algorithm. 
 
 #### Some Analysis
 
-Recall that the assumption built into the problem is that there exists exactly one number that will appear in the stream at least $X$ times. This implies that when we randomly choose a representative, the probability we do _not_ choose the desired number is at most $(1-X/n)$. Now suppose our algorithm does $k$ iterations of the main loop. Let us call $E_{k}$ the event that none of these iterations find the desired number using the randomly sampled representative. Since each iteration is independent of all others, this implies that this probability is at most
+Recall that the assumption built into the problem is that there exists exactly one number that will appear in the stream at least $X$ times. This implies that when we randomly choose a representative, the probability we do _not_ choose the desired number is at most $(1-X/n)$. Now suppose our algorithm does $k$ iterations of the main loop. Let us call $E_{k}$ the event that none of these $k$ iterations find the desired number using the randomly sampled representative. Since each iteration is independent of all others, this implies that this probability is at most
 
 $$ \begin{align}
 \text{Pr}\left\lbrace E_k \right\rbrace &\leq \left(1 - X/n\right)^k 
@@ -139,7 +139,11 @@ Now the above probability corresponds to a _worst case_ probability that our alg
 	which implies we can just take the minimum value of this and know that with probability at least $1 - \delta$, our algorithm finishes within $k = \left(\frac{\log(1/\delta)}{X}\right) n$ iterations.
 </div>
 
-Now notice that this choice of $k$ grows as we decrease $\delta$, which makes sense because smaller choices of $\delta$ give us stronger confidence that our algorithm will terminate in $k$ iterations. We can also see that the more times our desired number appears, which is reflected by the number $X$, the smaller we should expect our runtime to be. This clearly makes sense since the larger $X$ is, the larger our chance is of randomly choosing our desired number as a representative. 
+A corollary to the above theorem tells us that with probability at least $1 - \delta$, the number of times we loop over the stream $S$ is at most
+
+$$\left(\frac{2\log(1/\delta)}{X}\right) n$$
+
+Now the choice of $\delta$ is related to how confident we want to be that our bound holds true. Smaller values for $\delta$ correspond to higher confidence, which on observation makes the upper bound on the number of times we loop over the stream grow. This makes sense because if I wanted to be more confident in an upper bound, I would make it larger to be more conservative. Another notable observation is that as $X$ grows, the number of iterations we will do quickly shrinks. This clearly makes sense since the larger $X$ is, the larger our chance is of randomly choosing our desired number as a representative.
 
 So to help us judge how useful this algorithm might be, let us see how the runtime is for different values of $X$ and $\delta$. In particular, recall that with each iteration of the algorithm we do $2$ passes of the stream. This implies with probability at least $1-\delta$ that the number of times we pass through the stream is
 
