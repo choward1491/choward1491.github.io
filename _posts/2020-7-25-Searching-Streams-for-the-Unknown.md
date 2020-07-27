@@ -47,11 +47,6 @@ Before we get to the more interesting algorithm, let us consider what might be v
                         </li>
                     </ul>
                 </div>
-                <div class="else_cond">
-                    <ul>
-                    	<li><div class="continue"></div></li>
-                    </ul>
-                </div>
                 <div class="endif"></div>
             </li>
         </ul>
