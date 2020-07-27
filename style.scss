@@ -580,14 +580,21 @@ $comment-color: rgb(0, 179, 134);
     color: $keyword-color;
 }
 
-.for_loop:after {
+.foreach_loop:before {
+    content: "foreach ";
+    font-style: normal;
+    font-weight: bold;
+    color: $keyword-color;
+}
+
+.for_loop:after, .foreach_loop:after {
     content: "endfor ";
     font-style: normal;
     font-weight: bold;
     color: $keyword-color;
 }
 
-.for_loop ul, .while_loop ul {
+.for_loop ul, .while_loop ul, .foreach_loop ul {
     list-style-type: circle;
     margin-top: 0px;
     margin-bottom: 0px;

@@ -89,7 +89,7 @@ Now before going into the analysis of the above algorithm, how can we select a r
     <div class="algo_output">$(r)$</div>
     <p>$r := 1$ <span class="my_comment">representative variable</span></p>
     <p>$u := 0$ <span class="my_comment">minimum weight</span></p>
-    <div class="for_loop"> $s_i$ in $S = (s_1, s_2, \cdots, s_n)$
+    <div class="foreach_loop"> $s_i$ in $S = (s_1, s_2, \cdots, s_n)$
         <ul>
             <li>Randomly sample $w$ from interval $[0,1]$</li>
             <li>
