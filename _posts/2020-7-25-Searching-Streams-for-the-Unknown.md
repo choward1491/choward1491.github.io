@@ -74,7 +74,7 @@ At the start of this algorithm, on input of the stream $S$ and the value $X$, we
     <p>$u := 0$ <span class="my_comment">minimum weight</span></p>
     <div class="for_loop"> $s_i$ in $S = (s_1, s_2, \cdots, s_n)$
         <ul>
-            <li>Randomly sample $w$ from interval $[0,1]</li>
+            <li>Randomly sample $w$ from interval $[0,1]$</li>
             <li>
                 <div class="if_cond"> $w > u$
                     <ul>
