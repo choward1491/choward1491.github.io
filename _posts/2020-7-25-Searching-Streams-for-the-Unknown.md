@@ -59,7 +59,28 @@ It is pretty clear that this algorithm has us trying every type of number in the
 ### A Randomized Algorithm
 The previous algorithm is what we would consider deterministic, meaning that for the same input the algorithm will return the same answer in the same amount of runtime. In this case, we will consider a Las Vegas styled randomized algorithm, meaning for the same input the algorithm will return the same answer but its runtime can vary. This algorithm is going to be very similar to the previous one, but the twist leads to some interesting results.
 
-At the start of this algorithm, on input of the stream $S$ and the value $X$, we will enter a loop that only ends if we find a representative $r$ from the stream that appears at least $X$ times in the stream. From there, we will pass through the stream once and uniformly at random choose a representative $r$ from the stream. Note that this random selection of the representative is really the defining difference between this algorithm and the previous one.
+At the start of this algorithm, on input of the stream $S$ and the value $X$, we will enter a loop that only ends if we find a representative $r$ from the stream that appears at least $X$ times in the stream. From there, we will pass through the stream once and uniformly at random choose a representative $r$ from the stream. From here, like the naive algorithm, we will reset the stream and loop through it and count how many times the representative $r$ appears. If the counter returns a value at least as large as $X$, then we know we are done. The key differences between this algorithm and the previous one is how we select the representative and how the loop terminates. In this case we could run forever while the naive algorithm has at most $n$ iterations of the main loop. The explicit algorithm details are listed below.
+
+<div class="algorithm">
+    <div class="algorithm_name" text="Randomized Number Search"></div>
+    <div class="algo_input">$(S, X)$</div>
+    <div class="algo_output">$(r)$</div>
+    <p>$i := 1$ <span class="my_comment">stream index</span></p>
+    <p>$c := 0$ <span class="my_comment">counter</span></p>
+    <p>$r := 1$ <span class="my_comment">representative variable</span></p>
+    <div class="while_loop"> $c < X$
+        <ul>
+            <li>Reset stream $S$</li>
+            <li>$r \leftarrow \text{UniformRandomSample}(S)$ <span class="my_comment">randomly choose representative</span></li>
+            <li>Reset stream $S$</li>
+            <li>Set $c \leftarrow 0$ </li>
+            <li>Read in stream $S$ and set $c \leftarrow c + 1$ for each value that matches $r$</li>
+        </ul>
+    </div>
+    <div class="return">$(r)$</div>
+</div>
+
+Now before going into the analysis of the above algorithm, how can we select a representative uniformly at random from the stream? Well one approach is to start reading from the stream and assign the $i^{th}$ number in the stream a random weight uniformly at random from the interval $[0,1]$, over time keeping which ever number ends up with the largest randomly assigned value. This works because the probability the $i^{th}$ number in the stream gets the maximum value is equal to $1/n$, where $n$ is again the size of the stream. The algorithm details for this random representative sampling is shown below. 
 
 <div class="algorithm">
     <div class="algorithm_name" text="Uniform Random Sample"></div>
@@ -84,28 +105,7 @@ At the start of this algorithm, on input of the stream $S$ and the value $X$, we
     <div class="return">$(r)$ <span class="my_comment">return random representative</span></div>
 </div>
 
-<div class="algorithm">
-    <div class="algorithm_name" text="Randomized Number Search"></div>
-    <div class="algo_input">$(S, X)$</div>
-    <div class="algo_output">$(r)$</div>
-    <p>$i := 1$ <span class="my_comment">stream index</span></p>
-    <p>$c := 0$ <span class="my_comment">counter</span></p>
-    <p>$r := 1$ <span class="my_comment">representative variable</span></p>
-    <div class="while_loop"> $c < X$
-        <ul>
-            <li>Reset stream $S$</li>
-            <li>$r \leftarrow \text{UniformRandomSample}(S)$ <span class="my_comment">randomly choose representative</span></li>
-            <li>Reset stream $S$</li>
-            <li>Set $c \leftarrow 0$ </li>
-            <li>Read in stream $S$ and set $c \leftarrow c + 1$ for each value that matches $r$</li>
-        </ul>
-    </div>
-    <div class="return">$(r)$</div>
-</div>
-
-Now to achieve selecting a representative at random by streaming, we start reading from the stream and assign the ith number a random value uniformly at random from the interval $[0,1]$, over time keeping which ever number ends up with the largest randomly assigned value. This works because the probability the $i^{th}$ number in the stream gets the maximum value is equal to $1/n$, where $n$ is again the size of the stream. From here we then reset the stream and, starting from the beginning, count how many times we see our representative $r$ in the stream. If we reach the end of the stream and we have seen $r$ at least $X$ times, then we know our representative $r$ corresponds to the unique number we are looking for and so we return that and we are done. If we have instead seen $r$ less than $X$ times, then we know we have not found the desired number yet and we go back to the start of the loop so we can choose a random representative and repeat the process.
-
-This algorithm effectively chooses a representative at random over and over until the representative corresponds to the number we are looking for, so the correctness of the algorithm is clear. However, what is the runtime of this algorithm? Well each iteration of the loop will, just as the deterministic algorithm, require $2$ passes through the stream. The real question is, how many iterations of the loop should we expect before we find our desired number? This is where the real fun begins.
+Now let us consider the correctness for the randomized number search algorithm. This algorithm chooses a representative at random over and over until the representative corresponds to the number we are looking for, so the correctness of the algorithm is clear. Also, it is clear the space used is at most $O(\log(n))$ since this algorithm uses similar counter and number variables used in the naive algorithm. The tough question then for this algorithm is, what is the runtime? This is less trivial because it is possible the algorithm never ends up setting the representative to be the desired number, making the algorithm just run forever. For our purposes, we will model the runtime in terms of how many times we pass through the stream. On each iteration of the loop, just as in the naive algorithm, we will have $2$ passes through the stream. So to work out the runtime of the algorithm, we must answer how many iterations of the loop to expect. This is where the real fun begins!
 
 Recall that the assumption built into the problem is that there exists exactly one number that will appear in the stream at least $X$ times. This implies that when we randomly choose a representative, the probability we do not choose the desired number is at most $(1-X/n)$. Okay, so now what we would like to figure out is what the probability is of not choosing our desired number $k$ times in a row. Since each time we choose a random representative is independent of any other times, this implies that this probability is at most
 
