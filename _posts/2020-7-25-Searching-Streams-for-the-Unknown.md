@@ -110,12 +110,12 @@ Now let us consider the correctness for the randomized number search algorithm. 
 
 #### Some Analysis
 
-##### Average Performance
+##### Average Worst-Case Performance
 
 Recall that the assumption built into the problem is that there exists exactly one number that will appear in the stream at least $X$ times. This implies that when we randomly choose a representative, the probability we do choose the desired number is at least $X/n$. With this fact, we have the following result
 
 <div class="theorem" >
-    <div class="theorem_name" text="Average Runtime"></div>
+    <div class="theorem_name" text="Average Worst-case Runtime"></div>
 
     Suppose we are given an input instance $(S,X)$ to the randomized number search algorithm, where $S$ is a size $n$ stream. The expected number of times we will loop over the stream $S$ is at most
 
@@ -131,6 +131,9 @@ Recall that the assumption built into the problem is that there exists exactly o
 	$$\left(\frac{2}{X}\right) n$$
 </div>
 
+---
+
+When we consider the above, it is clear that the average worst-case performance of this algorithm improves upon the naive algorithm when $X > 2$ when we measure their performance in terms of the number of times we loop over the stream $S$. This observation implies that for most instances, choosing the randomized algorithm should have, in expectation, a better worst-case runtime than the naive algorithm. Of course, the expected runtime does not take into account any variation we might find in runtimes due to the randomness of the algorithm. To get a more clear picture of the runtime for this algorithm, we can instead try to use a high probability variant to the analysis.
 
 ##### High Probability Worst-case Performance
 
@@ -143,7 +146,7 @@ $$ \begin{align}
 Now the above probability corresponds to a _worst-case_ probability that our algorithm does not finish in $k$ iterations. This fact leads us to the following result
 
 <div class="theorem" >
-    <div class="theorem_name" text="Worst-case Runtime"></div>
+    <div class="theorem_name" text="High Probability Worst-case Runtime"></div>
 
     Suppose we are given an input instance $(S,X)$ to the randomized number search algorithm, where $S$ is a size $n$ stream. For any real number $1 > \delta > 0$, we have with probability at least $1 - \delta$ that our algorithm terminates after the number of times we loop over the stream $S$ is
 
