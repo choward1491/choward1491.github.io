@@ -351,7 +351,8 @@ div.theorem {
     margin-bottom: 3em;
     margin-left: auto;
     margin-right: auto;
-    padding: 20px;
+    padding: 1em;
+    padding-top: 2em;
     border-radius: 5px;
     border-color: rgb(102, 0, 204); 
     background-color: rgb(218, 179, 255);
@@ -390,7 +391,8 @@ div.lemma {
     margin-bottom: 3em;
     margin-left: auto;
     margin-right: auto;
-    padding: 20px;
+    padding: 1em;
+    padding-top: 2em;
     border-radius: 5px;
     border-color: rgb(255, 102, 0);
     background-color: rgb(255, 209, 179);
@@ -429,7 +431,8 @@ div.defn {
     margin-bottom: 3em;
     margin-left: auto;
     margin-right: auto;
-    padding: 20px;
+    padding: 1em;
+    padding-top: 2em;
     border-radius: 5px;
     border-color: rgb(0, 204, 0);
     background-color: rgb(179, 255, 179);
@@ -463,15 +466,149 @@ div.defn {
     text-align: left;
 }
 
+/* Algorithm stuff */
+$primary-algo-color: rgb(0, 74, 194);
+$keyword-color: rgb(0, 39, 102);
+
+.algorithm {
+    display: block;
+    position: relative;
+    padding: 1em;
+    padding-top: 2em;
+    margin: 3em;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+    border-color: $primary-algo-color;
+    border-width: 2px;
+    border-style: solid;
+    font-style: normal;
+    text-align: left;
+    width: fit-content;
+    min-width: 20em;
+}
+
+.algorithm_name {
+    position: absolute;
+    top: -15px;
+    left: 0px;
+    right: 0px;
+    margin: 0 auto;
+    border-radius: 0px;
+    background-color: $primary-algo-color; 
+    color: white;
+    width: fit-content;
+    font-style: normal;
+    padding: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: left;
+}
+
+.algorithm_name[text]:before {
+    content: "Algorithm (" attr(text) ")";
+    font-weight: bold;
+    font-style: normal;
+    text-align: left;
+}
+
+.for_loop:before {
+    content: "for ";
+    font-style: normal;
+    font-weight: bold;
+    color: $keyword-color;
+}
+
+.for_loop:after {
+    content: "endfor ";
+    font-style: normal;
+    font-weight: bold;
+    color: $keyword-color;
+}
+
+.for_loop ul {
+    list-style-type:none;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+}
+
+.if_cond:before {
+    content: "if ";
+    font-style: normal;
+    font-weight: bold;
+    color: $keyword-color;
+}
+
+.elseif_cond:before {
+    content: "else if ";
+    font-style: normal;
+    font-weight: bold;
+    color: $keyword-color;
+}
+
+.else_cond:before {
+    content: "else ";
+    font-style: normal;
+    font-weight: bold;
+    color: $keyword-color;
+}
+
+.endif:after {
+    content: "endif";
+    font-style: normal;
+    font-weight: bold;
+    color: $keyword-color;
+}
+
+.if_cond ul {
+    list-style-type:none;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+}
+.elseif_cond ul {
+    list-style-type:none;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+}
+.else_cond ul {
+    list-style-type:none;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+}
+
+.return {
+    font-style: normal;
+}
+.return:before {
+    content: "return ";
+    font-style: normal;
+    font-weight: bold;
+    color: $keyword-color;
+}
+.continue:after {
+    content: "continue";
+    font-style: normal;
+    font-weight: bold;
+    color: $keyword-color;
+}
+
 @media (max-width : 420px) {
 
-  div.lemma, div.theorem, div.defn {
-    padding-top: 50px;
+  div.lemma, div.theorem, div.defn, .algorithm  {
+    padding-top: 3em;
   }
 
   .theorem_name {
     position: absolute;
-    top: -20px;
+    top: -15px;
     margin: 0 auto;
     left: 0;
     right: 0;
