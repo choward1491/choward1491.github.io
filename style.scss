@@ -311,6 +311,12 @@ footer {
   text-align: center;
 }
 
+.entry p img {
+  max-width: 100%;
+  margin: 0 auto;
+  display: block;
+}
+
 $name-offset: -1em;
 
 .theorem {

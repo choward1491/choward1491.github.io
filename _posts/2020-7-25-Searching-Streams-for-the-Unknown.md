@@ -9,7 +9,6 @@ categories: algorithms math randomization probability experimental theory
 
 In the modern climate of big data, it should not surprise anyone that we can be handed a dataset that is much too large to fit onto our personal computer's hard drive, let alone having the dataset all load into RAM. Yet, these limitations do not stop us from trying to crunch bigger datasets and harvest even more data! 
 
-
 ![alt text](/assets/streaming/big_data.jpg "I love when you call me, Big Data")
 
 With such a data abundance, how do we construct efficient algorithms to handle the limitations of our hardware? Depending on the sort of things you wish to compute with the data, the techniques one might use can be extensive. While one common technique is to use distributed parallel computing to tackle large problems with lots of data at scale. An orthogonal direction to this that we will focus on, though, is something referred to streaming algorithms. 
@@ -51,7 +50,6 @@ $$ \exp\left(-\frac{X k}{n}\right) \leq \delta $$
 which can be satisfied by choosing $k$ equal the below expression:
 
 $$ k = \left(\frac{\log(1/\delta)}{X}\right) n $$
-
 
 Now notice that this choice of $k$ grows as we decrease $\delta$, which makes sense because smaller choices of $\delta$ give us stronger confidence that our algorithm will terminate in $k$ iterations. We can also see that the more times our desired number appears, which is reflected by the number $X$, the smaller we should expect our runtime to be. This clearly makes sense since the larger $X$ is, the larger our chance is of randomly choosing our desired number as a representative. 
 
