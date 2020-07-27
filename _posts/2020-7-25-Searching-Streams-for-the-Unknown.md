@@ -145,11 +145,9 @@ Now the above probability corresponds to a _worst-case_ probability that our alg
 <div class="theorem" >
     <div class="theorem_name" text="Worst-case Runtime"></div>
 
-    Define $\delta > 0$ as the maximum allowable probability that our randomized algorithm does <strong>not</strong> find the desired number within $k$ iterations of its loop. If we choose 
+    Suppose we are given an input instance $(S,X)$ to the randomized number search algorithm, where $S$ is a size $n$ stream. For any real number $1 > \delta > 0$, we have with probability at least $1 - \delta$ that our algorithm terminates after the number of times we loop over the stream $S$ is
 
-    $$k = \left(\frac{\log(1/\delta)}{X}\right) n$$
-
-    then with probability at least $1 - \delta$ our algorithm terminates within $k$ iterations.
+    $$\left(\frac{2\log(1/\delta)}{X}\right) n$$
 </div>
 <div class="proof">
 	So to prove this theorem, we note we are given a maximum allowable probability $\delta$ that our algorithm fails to finish within $k$ iterations. Let us recall from before that the probability our algorithm does not finish within $k$ iterations is at most $(1 - X/n)^k$ and further note the well known identity stating that $1 - x \leq \exp(-x)$ for all $x \in \mathbb{R}$. With these together, choosing $k$ to satisfy the inequality
@@ -160,14 +158,10 @@ Now the above probability corresponds to a _worst-case_ probability that our alg
 
 	$$ k \geq \left(\frac{\log(1/\delta)}{X}\right) n $$
 
-	which implies we can just take the minimum value of this and know that with probability at least $1 - \delta$, our algorithm finishes within $k = \left(\frac{\log(1/\delta)}{X}\right) n$ iterations.
+	which implies we can just take the minimum value of this and know that with probability at least $1 - \delta$, our algorithm finishes within $k = \left(\frac{\log(1/\delta)}{X}\right) n$ iterations. Since each iteration loops over the stream exactly $2$ times, this implies the result.
 </div>
 
 ---
-
-A corollary to the above theorem tells us that with probability at least $1 - \delta$, the number of times we loop over the stream $S$ is at most
-
-$$2\left(\frac{\log(1/\delta)}{X}\right) n$$
 
 Now the choice of $\delta$ is related to how confident we want to be that our bound holds true. Smaller values for $\delta$ correspond to higher confidence, which on observation makes the upper bound on the number of times we loop over the stream grow. This makes sense because if I wanted to be more confident in an upper bound, I would make it larger to be more conservative. Another notable observation is that as $X$ grows, the number of iterations we will do quickly shrinks. This clearly makes sense since the larger $X$ is, the larger our chance is of randomly choosing our desired number as a representative.
 
