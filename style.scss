@@ -558,6 +558,20 @@ $comment-color: rgb(0, 179, 134);
     color: $comment-color;
 }
 
+.while_loop:before {
+  content: "while ";
+  font-style: normal;
+  font-weight: bold;
+  color: $keyword-color;
+}
+
+.while_loop:after {
+    content: "endwhile ";
+    font-style: normal;
+    font-weight: bold;
+    color: $keyword-color;
+}
+
 .for_loop:before {
     content: "for ";
     font-style: normal;
@@ -572,7 +586,7 @@ $comment-color: rgb(0, 179, 134);
     color: $keyword-color;
 }
 
-.for_loop ul {
+.for_loop ul, .while_loop ul {
     list-style-type: circle;
     margin-top: 0px;
     margin-bottom: 0px;

@@ -56,7 +56,7 @@ Before we get to the more interesting algorithm, let us consider what might be v
             </li>
         </ul>
     </div>
-    <div class="return">$(\text{NaN})$ <span class="my_comment">if no number exists, return not a number</span></div>
+    <!--<div class="return">$(\text{NaN})$ <span class="my_comment">if no number exists, return not a number</span></div>-->
 </div>
 
 It is pretty clear that this algorithm has us trying every type of number in the stream and seeing if its frequency is at least $X$, implying we will eventually find our desired number if it exists. Since for each value of $i$ we have to pass through the stream $2$ times, once to get the $i^{th}$ number as a representative and once to compute the frequency of that number, this implies in the worst case we will pass through the stream at most $2n$ times. Further, we can see that the only extra space we use other than the inputs is a few counters and a temporary number representing the representative. This implies our space complexity is at most $O(\log(n))$. So this algorithm is simple, correct, and has a small space footprint. Can we do any better?
@@ -96,31 +96,16 @@ At the start of this algorithm, on input of the stream $S$ and the value $X$, we
     <p>$i := 1$ <span class="my_comment">stream index</span></p>
     <p>$c := 0$ <span class="my_comment">counter</span></p>
     <p>$r := 1$ <span class="my_comment">representative variable</span></p>
-    <div class="for_loop"> $i$ from $1$ to $n$
+    <div class="while_loop"> $c < X$
         <ul>
             <li>Reset stream $S$</li>
             <li>$r \leftarrow \text{UniformRandomSample}(S)$ <span class="my_comment">randomly choose representative</span></li>
             <li>Reset stream $S$</li>
             <li>Set $c \leftarrow 0$ </li>
             <li>Read in stream $S$ and set $c \leftarrow c + 1$ for each value that matches $r$</li>
-            <li>
-                <div class="if_cond"> $c \geq X$
-                    <ul>
-                        <li>
-                            <div class="return">$(r)$</div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="else_cond">
-                    <ul>
-                    	<li><div class="continue"></div></li>
-                    </ul>
-                </div>
-                <div class="endif"></div>
-            </li>
         </ul>
     </div>
-    <div class="return">$(\text{NaN})$ <span class="my_comment">if no number exists, return not a number</span></div>
+    <div class="return">$(r)$</div>
 </div>
 
 Now to achieve selecting a representative at random by streaming, we start reading from the stream and assign the ith number a random value uniformly at random from the interval $[0,1]$, over time keeping which ever number ends up with the largest randomly assigned value. This works because the probability the $i^{th}$ number in the stream gets the maximum value is equal to $1/n$, where $n$ is again the size of the stream. From here we then reset the stream and, starting from the beginning, count how many times we see our representative $r$ in the stream. If we reach the end of the stream and we have seen $r$ at least $X$ times, then we know our representative $r$ corresponds to the unique number we are looking for and so we return that and we are done. If we have instead seen $r$ less than $X$ times, then we know we have not found the desired number yet and we go back to the start of the loop so we can choose a random representative and repeat the process.
