@@ -108,16 +108,16 @@ int main(int argc, char** argv){
 
 <div class="algorithm">
     <div class="algorithm_name" text="Newton's Method"></div>
-    <div class="for_loop"> i from 1 to n
+    <div class="for_loop"> $i$ from $1$ to $n$
         <ul>
-            <li>Compute Jacobian of f(x)</li>
+            <li>Compute Jacobian of $f(x)$</li>
             <li>Compute Newton step</li>
-            <li>x = x + dx</li>
+            <li>$x \leftarrow x + \Delta x$</li>
             <li>
-                <div class="if_cond"> x < epsilon
+                <div class="if_cond"> $|x| < \epsilon$
                     <ul>
                         <li>
-                            <div class="return">x</div>
+                            <div class="return">$x$</div>
                         </li>
                     </ul>
                 </div>
