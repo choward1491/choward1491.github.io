@@ -54,6 +54,8 @@ Before we get to the more interesting algorithm, let us consider what might be v
     <!--<div class="return">$(\text{NaN})$ <span class="my_comment">if no number exists, return not a number</span></div>-->
 </div>
 
+#### Some Analysis
+
 It is pretty clear that this algorithm has us trying every type of number in the stream and seeing if its frequency is at least $X$, implying we will eventually find our desired number if it exists. Since for each value of $i$ we have to pass through the stream $2$ times, once to get the $i^{th}$ number as a representative and once to compute the frequency of that number, this implies in the worst case we will pass through the stream at most $2n$ times. Further, we can see that the only extra space we use other than the inputs is a few counters and a temporary number representing the representative. This implies our space complexity is at most $O(\log(n))$. So this algorithm is simple, correct, and has a small space footprint. Can we do any better?
 
 ### A Randomized Algorithm
@@ -65,7 +67,6 @@ At the start of this algorithm, on input of the stream $S$ and the value $X$, we
     <div class="algorithm_name" text="Randomized Number Search"></div>
     <div class="algo_input">$(S, X)$</div>
     <div class="algo_output">$(r)$</div>
-    <p>$i := 1$ <span class="my_comment">stream index</span></p>
     <p>$c := 0$ <span class="my_comment">counter</span></p>
     <p>$r := 1$ <span class="my_comment">representative variable</span></p>
     <div class="while_loop"> $c < X$
@@ -106,6 +107,8 @@ Now before going into the analysis of the above algorithm, how can we select a r
 </div>
 
 Now let us consider the correctness for the randomized number search algorithm. This algorithm chooses a representative at random over and over until the representative corresponds to the number we are looking for, so the correctness of the algorithm is clear. Also, it is clear the space used is at most $O(\log(n))$ since this algorithm uses similar counter and number variables used in the naive algorithm. The tough question then for this algorithm is, what is the runtime? This is less trivial because it is possible the algorithm never ends up setting the representative to be the desired number, making the algorithm just run forever. For our purposes, we will model the runtime in terms of how many times we pass through the stream. On each iteration of the loop, just as in the naive algorithm, we will have $2$ passes through the stream. So to work out the runtime of the algorithm, we must answer how many iterations of the loop to expect. This is where the real fun begins!
+
+#### Some Analysis
 
 Recall that the assumption built into the problem is that there exists exactly one number that will appear in the stream at least $X$ times. This implies that when we randomly choose a representative, the probability we do not choose the desired number is at most $(1-X/n)$. Okay, so now what we would like to figure out is what the probability is of not choosing our desired number $k$ times in a row. Since each time we choose a random representative is independent of any other times, this implies that this probability is at most
 
