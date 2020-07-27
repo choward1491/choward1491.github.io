@@ -108,7 +108,7 @@ Now before going into the analysis of the above algorithm, how can we select a r
 
 Now let us consider the correctness for the randomized number search algorithm. This algorithm chooses a representative at random over and over until the representative corresponds to the number we are looking for, so the correctness of the algorithm is clear. Also, it is clear the space used is at most $O(\log(n))$ since this algorithm uses similar counter and number variables used in the naive algorithm. 
 
-The tough question then for this algorithm is, what is the runtime? This is less trivial because it is possible the algorithm never ends up setting the representative to be the desired number, making the algorithm just run forever. For our purposes, we will model the runtime in terms of how many times we pass through the stream. On each iteration of the loop, just as in the naive algorithm, we will have $2$ passes through the stream. So to work out the runtime of the algorithm, we must answer how many iterations of the loop to expect. This is where the real fun begins!
+The tough question then for this algorithm is, what is the runtime? This is less trivial because it is possible the algorithm never sets the representative to be the desired number, making the algorithm run forever. For our purposes, we will model the runtime in terms of how many times we pass through the stream. On each iteration of the loop, just as in the naive algorithm, we will have $2$ passes through the stream. So to work out the runtime of the algorithm, we must answer how many iterations of the loop to expect. This is where the real fun begins!
 
 #### Some Analysis
 
@@ -119,7 +119,7 @@ Recall that the assumption built into the problem is that there exists exactly o
 <div class="theorem" >
     <div class="theorem_name" text="Average Worst-case Runtime"></div>
 
-    Suppose we are given an input instance $(S,X)$ to the randomized number search algorithm, where $S$ is a size $n$ stream. The expected number of times we will loop over the stream $S$ is at most
+    Suppose we are given an arbitrary input instance $(S,X)$ to the randomized number search algorithm, where $S$ is a size $n$ stream. The expected number of times we will loop over the stream $S$ is at most
 
     $$\left(\frac{2}{X}\right) n$$
 </div>
@@ -150,7 +150,7 @@ Now the above probability corresponds to a _worst-case_ probability that our alg
 <div class="theorem" >
     <div class="theorem_name" text="High Probability Worst-case Runtime"></div>
 
-    Suppose we are given an input instance $(S,X)$ to the randomized number search algorithm, where $S$ is a size $n$ stream. For any real number $1 > \delta > 0$, we have with probability at least $1 - \delta$ that our algorithm terminates after the number of times we loop over the stream $S$ is
+    Suppose we are given an arbitrary input instance $(S,X)$ to the randomized number search algorithm, where $S$ is a size $n$ stream. For any real number $1 > \delta > 0$, we have with probability at least $1 - \delta$ that our algorithm terminates after the number of times we loop over the stream $S$ is
 
     $$\left(\frac{2\log(1/\delta)}{X}\right) n$$
 </div>
