@@ -30,11 +30,11 @@ Before we get to the more interesting algorithm, let us consider what might be v
 
 <div class="algorithm">
     <div class="algorithm_name" text="Naive Number Search"></div>
-    <div class="input">$(S, X)$</div>
-    <div class="output">$(r)$</div>
-    <p>$i := 1$ <span class="comment">stream index</span></p>
-    <p>$c := 0$ <span class="comment">counter</span></p>
-    <p>$r := 1$ <span class="comment">representative variable</span></p>
+    <div class="algo_input">$(S, X)$</div>
+    <div class="algo_output">$(r)$</div>
+    <p>$i := 1$ <span class="my_comment">stream index</span></p>
+    <p>$c := 0$ <span class="my_comment">counter</span></p>
+    <p>$r := 1$ <span class="my_comment">representative variable</span></p>
     <div class="for_loop"> $i$ from $1$ to $n$
         <ul>
             <li>Reset stream $S$</li>

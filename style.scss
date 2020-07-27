@@ -521,14 +521,18 @@ $comment-color: rgb(255, 204, 0);
     text-align: left;
 }
 
-.input:before {
+.algorithm p {
+  margin: 0;
+}
+
+.algo_input:before {
     content: "input ";
     font-style: normal;
     font-weight: bold;
     color: $keyword-color;
 }
 
-.ouput:before {
+.algo_ouput:before {
     content: "output ";
     font-style: normal;
     font-weight: bold;
