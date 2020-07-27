@@ -60,6 +60,7 @@ Before we get to the more interesting algorithm, let us consider what might be v
             </li>
         </ul>
     </div>
+    <div class="return">$(\text{NaN})$</div><span class="my_comment">if no number exists, return not a number</div>
 </div>
 
 It is pretty clear that this algorithm has us trying every type of number in the stream and seeing if its frequency is at least $X$, implying we will eventually find our desired number. Since for each value of $i$ we have to pass through the stream $2$ times, once to get the $i^{th}$ number and once to compute the frequency of that number, this implies in the worst case we will pass through the stream at most $2n$ times. Seems like a simple enough algorithm! So can we do any better?
