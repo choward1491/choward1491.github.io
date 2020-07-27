@@ -311,6 +311,8 @@ footer {
   text-align: center;
 }
 
+$name-offset: -1em;
+
 .theorem {
     display: block;
     margin: 12px 0;
@@ -366,7 +368,7 @@ div.theorem {
 
 .theorem_name {
     position: absolute;
-    top: -0.5em;
+    top: $name-offset;
     left: 20px;
     border-radius: 0px;
     background-color: rgb(102, 0, 204); 
@@ -406,7 +408,7 @@ div.lemma {
 
 .lemma_name {
     position: absolute;
-    top: -0.5em;
+    top: $name-offset;
     left: 20px;
     border-radius: 0px;
     background-color: rgb(255, 102, 0);
@@ -446,7 +448,7 @@ div.defn {
 
 .defn_name {
     position: absolute;
-    top: -0.5em;
+    top: $name-offset;
     left: 20px;
     border-radius: 0px;
     background-color: rgb(0, 204, 0);
@@ -490,7 +492,7 @@ $keyword-color: rgb(0, 39, 102);
 
 .algorithm_name {
     position: absolute;
-    top: -0.5em;
+    top: $name-offset;
     left: 0px;
     right: 0px;
     margin: 0 auto;
@@ -608,7 +610,7 @@ $keyword-color: rgb(0, 39, 102);
 
   .theorem_name {
     position: absolute;
-    top: -0.5em;
+    top: $name-offset;
     margin: 0 auto;
     left: 0;
     right: 0;
@@ -625,7 +627,7 @@ $keyword-color: rgb(0, 39, 102);
 
 .algorithm_name {
     position: absolute;
-    top: -0.5em;
+    top: $name-offset;
     left: 0px;
     right: 0px;
     margin: 0 auto;
@@ -649,7 +651,7 @@ $keyword-color: rgb(0, 39, 102);
 
   .lemma_name {
     position: absolute;
-    top: -0.5em;
+    top: $name-offset;
     margin: 0 auto;
     left: 0;
     right: 0;
@@ -673,7 +675,7 @@ $keyword-color: rgb(0, 39, 102);
 
   .defn_name {
     position: absolute;
-    top: -0.5em;
+    top: $name-offset;
     margin: 0 auto;
     left: 0;
     right: 0;
