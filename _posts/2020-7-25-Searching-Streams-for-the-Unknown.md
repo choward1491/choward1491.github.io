@@ -56,7 +56,7 @@ Before we get to the more interesting algorithm, let us consider what might be v
 
 #### Some Analysis
 
-It is pretty clear that this algorithm has us trying every type of number in the stream and seeing if its frequency is at least $X$, implying we will eventually find our desired number if it exists. Since for each value of $i$ we have to pass through the stream $2$ times, once to get the $i^{th}$ number as a representative and once to compute the frequency of that number, this implies in the worst case we will pass through the stream at most $2n$ times. Further, we can see that the only extra space we use other than the inputs is a few counters and a temporary number representing the representative. This implies our space complexity is at most $O(\log(n))$. So this algorithm is simple, correct, and has a small space footprint. Can we do any better?
+It is pretty clear that this algorithm has us trying every type of number in the stream and seeing if its frequency is at least $X$, implying we will eventually find our desired number since it exists. Since for each value of $i$ we have to pass through the stream $2$ times, once to get the $i^{th}$ number as a representative and once to compute the frequency of that number, this implies in the worst case we will pass through the stream at most $2n$ times. Further, we can see that the only extra space we use other than the inputs is a few counters and a temporary number representing the representative. This implies our space complexity is at most $O(\log(n))$. So this algorithm is simple, correct, and has a small space footprint. Can we do any better?
 
 ### A Randomized Algorithm
 The previous algorithm is what we would consider deterministic, meaning that for the same input the algorithm will return the same answer in the same amount of runtime. In this case, we will consider a Las Vegas styled randomized algorithm, meaning for the same input the algorithm will return the same answer but its runtime can vary. This algorithm is going to be very similar to the previous one, but the twist leads to some interesting results.
@@ -110,17 +110,34 @@ Now let us consider the correctness for the randomized number search algorithm. 
 
 #### Some Analysis
 
-Recall that the assumption built into the problem is that there exists exactly one number that will appear in the stream at least $X$ times. This implies that when we randomly choose a representative, the probability we do not choose the desired number is at most $(1-X/n)$. Okay, so now what we would like to figure out is what the probability is of not choosing our desired number $k$ times in a row. Since each time we choose a random representative is independent of any other times, this implies that this probability is at most
+Recall that the assumption built into the problem is that there exists exactly one number that will appear in the stream at least $X$ times. This implies that when we randomly choose a representative, the probability we do _not_ choose the desired number is at most $(1-X/n)$. Now suppose our algorithm does $k$ iterations of the main loop. What is the probability that none of these iterations result in the randomly chosen representative being the desired number? Since each iteration is independent of all others, this implies that this probability is at most
 
-$$ \text{Pr}\left\lbrace \right\rbrace \leq \left(1 - X/n\right)^k \leq \exp\left(-\frac{X k}{n}\right) $$
+$$ \begin{align}
+\text{Pr}\left\lbrace \right\rbrace &\leq \left(1 - X/n\right)^k 
+\end{align}$$
 
-Now the above probability corresponds to a worst case probability that our algorithm does not finish in $k$ iterations. Suppose we want to choose $k$ such that the probability we do not finish in $k$ iterations is at most $\delta$. This implies we want to choose $k$ such that the following inequality holds
+Now the above probability corresponds to a _worst case_ probability that our algorithm does not finish in $k$ iterations. This fact leads us to the following result
 
-$$ \exp\left(-\frac{X k}{n}\right) \leq \delta $$
+<div class="theorem" >
+    <div class="theorem_name" text="Algorithm Runtime"></div>
 
-which can be satisfied by choosing $k$ equal the below expression:
+    Define $\delta > 0$ as the maximum allowable probability that our randomized algorithm does **not** find the desired number within $k$ iterations of its loop. If we choose 
 
-$$ k = \left(\frac{\log(1/\delta)}{X}\right) n $$
+    $$k = \left(\frac{\log(1/\delta)}{X}\right) n$$
+
+    then with probability at least $1 - \delta$ our algorithm terminates within $k$ iterations.
+</div>
+<div class="proof">
+	So to prove this theorem, we note we are given a maximum allowable probability $\delta$ that our algorithm fails to finish within $k$ iterations. Recalling from before that the probability our algorithm does not finish within $k$ iterations is at most $(1 - X/n)^k$, and noting the well known identity stating that $1 - x \leq \exp(-x)$ for all $x \in \mathbb{R}$, we can find that finding $k$ such that
+
+	$$\exp\left(-\frac{Xk}{n}\right) \leq \delta$$
+
+	ensures that $(1 - X/n)^k \leq \delta$ since $(1 - X/n)^k \leq \exp\left(-\frac{Xk}{n}\right)$. If we invert for $k$, we can find that $k$ must satisfy the inequality 
+
+	$$ k \geq \left(\frac{\log(1/\delta)}{X}\right) n $$
+
+	which implies we can just take the minimum value of this and know that with probability at least $1 - \delta$, our algorithm finishes within $k = \left(\frac{\log(1/\delta)}{X}\right) n$ iterations.
+</div>
 
 Now notice that this choice of $k$ grows as we decrease $\delta$, which makes sense because smaller choices of $\delta$ give us stronger confidence that our algorithm will terminate in $k$ iterations. We can also see that the more times our desired number appears, which is reflected by the number $X$, the smaller we should expect our runtime to be. This clearly makes sense since the larger $X$ is, the larger our chance is of randomly choosing our desired number as a representative. 
 
