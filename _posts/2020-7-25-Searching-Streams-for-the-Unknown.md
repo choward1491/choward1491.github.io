@@ -112,7 +112,7 @@ The tough question then for this algorithm is, what is the runtime? This is less
 
 #### Some Analysis
 
-##### Average Worst-Case Performance
+###### Average Worst-Case Performance
 
 Recall that the assumption built into the problem is that there exists exactly one number that will appear in the stream at least $X$ times. This implies that when we randomly choose a representative, the probability we do choose the desired number is at least $X/n$. With this fact, we have the following result
 
@@ -137,7 +137,7 @@ Recall that the assumption built into the problem is that there exists exactly o
 
 When we consider the above, it is clear that the average worst-case performance of this algorithm improves upon the naive algorithm when $X > 2$ when we measure their performance in terms of the number of times we loop over the stream $S$. This observation implies that for most instances, choosing the randomized algorithm should have, in expectation, a better worst-case runtime than the naive algorithm. Of course, the expected runtime does not take into account any variation we might find in runtimes due to the randomness of the algorithm. To get a more clear picture of the runtime for this algorithm, we can instead try to use a high probability variant to the analysis.
 
-##### High Probability Worst-case Performance
+###### High Probability Worst-case Performance
 
 Again recalling our desired number is in the stream at least $X$ times, this implies that at some iteration the representative chosen randomly is _not_ the desired number with probability at most $(1 - X/n)$. Now suppose our algorithm does $k$ iterations of the main loop. Let us call $E_{k}$ the event that none of these $k$ iterations find the desired number using the randomly sampled representative. Since each iteration is independent of all others, this implies that this probability is at most
 
