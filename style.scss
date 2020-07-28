@@ -317,6 +317,10 @@ footer {
   display: block;
 }
 
+.entry p {
+  text-align: justify;
+}
+
 $name-offset: -1em;
 
 .theorem {
