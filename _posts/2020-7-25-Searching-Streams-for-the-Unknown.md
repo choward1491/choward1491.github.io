@@ -13,7 +13,7 @@ In the modern climate of big data, it should not surprise anyone that we can be 
 
 With such a data abundance, how do we construct efficient algorithms to handle the limitations of our hardware? Depending on the sort of things you wish to compute with the data, the techniques one might use can be extensive. While one common technique is to use distributed parallel computing to tackle large problems with lots of data at scale. An orthogonal direction to this that we will focus on, though, is something referred to streaming algorithms. 
 
-### Streaming Algorithm Basics
+### Basic Streaming Algorithm Concepts
 
 So one might ask, what is a streaming algorithm? To start, let us consider what a stream might be. A stream could be viewed as a sequence of data that we start and then run through in the order of the sequence. In some contexts, one can only pass through a stream once while in other contexts one pass through the stream as many times as needed. A streaming algorithm generally corresponds to an algorithm that operates on a stream to compute or estimate some quantity. Often, streaming algorithms operate on the assumption that the stream has so much data within it that algorithms operating on the stream should use a logarithmic or constant amount of data relative to the stream size $n$. If we consider, as an example, a $1$ TB sized file of regression data that we want to process to estimate some neural network parameters, it becomes clear having an algorithm that uses much less than $1$ TB of space to run would be very useful to tackling such a problem. Thus, streaming algorithms can be extremely useful.
 
@@ -46,7 +46,7 @@ Before we get to the more interesting algorithm, let us consider what might be v
                 <div class="if_cond"> $c \geq X$
                     <ul>
                         <li>
-                            <div class="return">$(r)$</div>
+                            <div class="return">$r$</div>
                         </li>
                     </ul>
                 </div>
@@ -81,7 +81,7 @@ At the start of this algorithm, on input of the stream $S$ and the value $X$, we
             <li>Read in stream $S$ and set $c \leftarrow c + 1$ for each value that matches $r$</li>
         </ul>
     </div>
-    <div class="return">$(r)$</div>
+    <div class="return">$r$</div>
 </div>
 
 Now before going into the analysis of the above algorithm, how can we select a representative uniformly at random from the stream? Well one approach is to start reading from the stream and assign the $i^{th}$ number in the stream a random weight uniformly at random from the interval $[0,1]$, over time keeping which ever number ends up with the largest randomly assigned value. This works because the probability the $i^{th}$ number in the stream gets the maximum value is equal to $1/n$, where $n$ is again the size of the stream. The algorithm details for this random representative sampling is shown below. 
@@ -106,7 +106,7 @@ Now before going into the analysis of the above algorithm, how can we select a r
             </li>
         </ul>
     </div>
-    <div class="return">$(r)$ <span class="my_comment">return random representative</span></div>
+    <div class="return">$r$ <span class="my_comment">return random representative</span></div>
 </div>
 
 Now let us consider the correctness for the randomized number search algorithm. This algorithm chooses a representative at random, over and over, until the representative corresponds to the number we are looking for, so the correctness of the algorithm is clear. Also, it is clear the space used is at most $O(\log(n))$ bits since this algorithm uses similar counter and number variables used in the naive algorithm. 
@@ -173,7 +173,7 @@ Now the above probability corresponds to a _worst-case_ probability that our alg
 
 Now as we decrease $\delta$ towards $0$, our confidence of at least $1 - \delta$ is brought closer and closer to a probability of $1$ that our bound on the runtime holds true. Intuitively, these smaller values for $\delta$ that correspond to higher confidence should force the upper bound on the number of times we loop over the stream grow because if I wanted to be more confident in an upper bound, I would make it larger to be more conservative. Thus, the analysis shows a $\log(1/\delta)$ penalty in the upper bound to ensure our confidence of at least $1 - \delta$. Pretty interesting. Another notable observation is that as $X$ grows, the number of iterations we will do quickly shrinks. This clearly makes sense since the larger $X$ is, the larger our chance is of randomly choosing our desired number as a representative.
 
-Further, the analysis shows that if $\left(\frac{\log(1/\delta)}{X}\right) < 1$, then with probability at most $1 - \delta$ this algorithm has a worst-case runtime that is faster than the naive algorithm's worst-case runtime. This is an important observation because this implies there are potentially many instances where this algorithm can out perform the naive algorithm in a high probability sense. For example, if we choose $\delta = 10^{-10}$, then inputs where $X > 10 \log(10) > 23$ ensure with probability at least $1 - 10^{-10}$ that our worst-case runtime beats the worst-case runtime for the naive algorithm. Compared to the average worst-case inequality that the runtime beats the naive algorithm when $X > 1$, it is certainly a bit more conservative but the guarantee is also much stronger since it looks at the tails of the distribution for the runtime.
+Further, the analysis shows that if $\left(\log(1/\delta)/X\right) < 1$, then with probability at most $1 - \delta$ this algorithm has a worst-case runtime that is faster than the naive algorithm's worst-case runtime. This is an important observation because this implies there are potentially many instances where this algorithm can out perform the naive algorithm in a high probability sense. For example, if we choose $\delta = 10^{-10}$, then inputs where $X > 10 \log(10) > 23$ ensure with probability at least $1 - 10^{-10}$ that our worst-case runtime beats the worst-case runtime for the naive algorithm. Compared to the average worst-case inequality that the runtime beats the naive algorithm when $X > 1$, it is certainly a bit more conservative but the guarantee is also much stronger since it looks at the tails of the distribution for the runtime.
 
 ### Experimental Comparisons
 
