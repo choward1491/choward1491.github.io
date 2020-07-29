@@ -79,9 +79,9 @@ $$\begin{align}
 &= \log\left(\frac{n+1}{n-i+2}\right)
 \end{align}$$
 
-Applying this lower bound gives us that our probability is at most
+Applying this lower bound and again the $1 - x \leq \exp(-x)$ inequality gives us that our probability is at most
 
-$$\text{Pr}\left\lbrace I_{X} = i\right\rbrace \leq \frac{X}{n-i+1} \left(\frac{n-i+2}{n+1}\right)^X \leq \frac{X}{n-i+1} \exp\left(-X\frac{(i-1)}{n+1}\right)$$
+$$\text{Pr}\left\lbrace I_{X} = i\right\rbrace \leq \frac{X}{n-i+1} \left(\frac{n-i+2}{n+1}\right)^X \leq \frac{X}{n-i+1} \exp\left(-\frac{Xi)}{n+1}\right)\exp\left(\frac{X)}{n+1}\right)$$
 
 So now let us consider the average runtime, i.e. the expected runtime. The above work shows us that our expected runtime is at most
 
