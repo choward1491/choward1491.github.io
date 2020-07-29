@@ -115,12 +115,12 @@ The tough question then for this algorithm is, what is the runtime? This is less
 
 #### Some Analysis
 
-###### Average Worst-Case Performance
+###### Expected Runtime
 
 Recall that the assumption built into the problem is that there exists exactly one number that will appear in the stream at least $X$ times. This implies that when we randomly choose a representative, the probability we do choose the desired number is at least $X/n$. With this fact, we have the following result
 
 <div class="theorem" >
-    <div class="theorem_name" text="Average Worst-case Runtime"></div>
+    <div class="theorem_name" text="Average Runtime"></div>
 
     Suppose we are given an arbitrary input instance $(S,X)$ to the randomized number search algorithm, where $S$ is a size $n$ stream. The expected number of times we will loop over the stream $S$ is at most
 
@@ -138,9 +138,9 @@ Recall that the assumption built into the problem is that there exists exactly o
 
 ---
 
-When we consider the above, it is clear that the average worst-case performance of this algorithm improves upon the naive algorithm when $X > 1$ when we measure their performance in terms of the number of times we loop over the stream $S$. This observation implies that for most instances, choosing the randomized algorithm should have, in expectation, a better worst-case runtime than the naive algorithm. Of course, the expected runtime does not take into account any variation we might find in runtimes due to the randomness of the algorithm. To get a more clear picture of the runtime for this algorithm, we can instead try to use a high probability variant to the analysis.
+When we consider the above, it is clear that the average performance of this algorithm improves upon the naive algorithm when $X > 1$ when we measure their performance in terms of the number of times we loop over the stream $S$. This observation implies that for most instances, choosing the randomized algorithm should have, in expectation, a better average runtime than the naive algorithm. Of course, the expected runtime does not take into account any variation we might find in runtimes due to the randomness of the algorithm. To get a more clear picture of the runtime for this algorithm, we can instead try to use a high probability variant to the analysis.
 
-###### High Probability Worst-case Performance
+###### High Probability Runtime
 
 Again recalling our desired number is in the stream at least $X$ times, this implies that at some iteration the representative chosen randomly is _not_ the desired number with probability at most $(1 - X/n)$. Now suppose our algorithm does $k$ iterations of the main loop. Let us call $E_{k}$ the event that none of these $k$ iterations find the desired number using the randomly sampled representative. Since each iteration is independent of all others, this implies that this probability is at most
 
@@ -151,7 +151,7 @@ $$ \begin{align}
 Now the above probability corresponds to a _worst-case_ probability that our algorithm does not finish in $k$ iterations. This fact leads us to the following result
 
 <div class="theorem" >
-    <div class="theorem_name" text="High Probability Worst-case Runtime"></div>
+    <div class="theorem_name" text="High Probability Runtime"></div>
 
     Suppose we are given an arbitrary input instance $(S,X)$ to the randomized number search algorithm, where $S$ is a size $n$ stream. For any real number $1 > \delta > 0$, we have with probability at least $1 - \delta$ that our algorithm terminates after the number of times we loop over the stream $S$ is
 
@@ -173,7 +173,7 @@ Now the above probability corresponds to a _worst-case_ probability that our alg
 
 Now as we decrease $\delta$ towards $0$, our confidence of at least $1 - \delta$ is brought closer and closer to a probability of $1$ that our bound on the runtime holds true. Intuitively, these smaller values for $\delta$ that correspond to higher confidence should force the upper bound on the number of times we loop over the stream grow because if I wanted to be more confident in an upper bound, I would make it larger to be more conservative. Thus, the analysis shows a $\log(1/\delta)$ penalty in the upper bound to ensure our confidence of at least $1 - \delta$. Pretty interesting. Another notable observation is that as $X$ grows, the number of iterations we will do quickly shrinks. This clearly makes sense since the larger $X$ is, the larger our chance is of randomly choosing our desired number as a representative.
 
-Further, the analysis shows that if $\left(\log(1/\delta)/X\right) < 1$, then with probability at most $1 - \delta$ this algorithm has a worst-case runtime that is faster than the naive algorithm's worst-case runtime. This is an important observation because this implies there are potentially many instances where this algorithm can out perform the naive algorithm in a high probability sense. For example, if we choose $\delta = 10^{-10}$, then inputs where $X > 10 \log(10) > 23$ ensure with probability at least $1 - 10^{-10}$ that our worst-case runtime beats the worst-case runtime for the naive algorithm. Compared to the average worst-case inequality that the runtime beats the naive algorithm when $X > 1$, it is certainly a bit more conservative but the guarantee is also much stronger since it looks at the tails of the distribution for the runtime.
+Further, the analysis shows that if $\left(\log(1/\delta)/X\right) < 1$, then with probability at most $1 - \delta$ this algorithm has a runtime that is faster than the naive algorithm's worst-case runtime. This is an important observation because this implies there are potentially many instances where this algorithm can out perform the naive algorithm in a high probability sense. For example, if we choose $\delta = 10^{-10}$, then inputs where $X > 10 \log(10) > 23$ ensure with probability at least $1 - 10^{-10}$ that our runtime beats the worst-case runtime for the naive algorithm. Compared to the average runtime inequality that the runtime beats the naive algorithm when $X > 1$, it is certainly a bit more conservative but the guarantee is also much stronger since it looks at the tails of the distribution for the runtime.
 
 ### Experimental Comparisons
 
