@@ -69,6 +69,18 @@ This probability can be upper bounded by using a well known inequality that stat
 
 $$\text{Pr}\left\lbrace I_{X} = i\right\rbrace \leq \frac{X}{n-i+1} \exp\left(-X \sum_{j=0}^{i-2} \frac{1}{n-j}\right)$$
 
+From here, we can find a lower bound for $\sum_{j=0}^{i-2} \frac{1}{n-j}$ by using the following sequence of operations
+
+$$\begin{align}
+\sum_{j=0}^{i-2} \frac{1}{n-j} &= \sum_{j=n-i+2}^{n} \frac{1}{j} \\
+&\geq \int_{n-i+2}^{n+1} \frac{dx}{x} \tag{$1/x$ decreases}\\
+&= \log\left(\frac{n+1}{n-i+2}\right)
+\end{align}$$
+
+Applying this lower bound and the $1 - x \leq \exp(-x)$ inequality again gives us that our probability is at most
+
+$$\text{Pr}\left\lbrace I_{X} = i\right\rbrace \leq \frac{X}{n-i+1} \left(\frac{n-i+2}{n+1}\right)^X \leq \frac{X}{n-i+1} \exp\left(-X\frac{(i-1)}{n+1}\right)$$
+
 ### A Randomized Algorithm
 The previous algorithm is what we would consider deterministic, meaning that for the same input the algorithm will return the same answer in the same amount of runtime. In this case, we will consider a Las Vegas styled randomized algorithm, meaning for the same input the algorithm will return the same answer but its runtime can vary. This algorithm is going to be very similar to the previous one, but the twist leads to some interesting results.
 
