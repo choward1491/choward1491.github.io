@@ -77,9 +77,13 @@ $$\begin{align}
 &= \log\left(\frac{n+1}{n-i+2}\right)
 \end{align}$$
 
-Applying this lower bound and the $1 - x \leq \exp(-x)$ inequality again gives us that our probability is at most
+Applying this lower bound gives us that our probability is at most
 
 $$\text{Pr}\left\lbrace I_{X} = i\right\rbrace \leq \frac{X}{n-i+1} \left(\frac{n-i+2}{n+1}\right)^X \leq \frac{X}{n-i+1} \exp\left(-X\frac{(i-1)}{n+1}\right)$$
+
+So now let us consider the average runtime, i.e. the expected runtime. The above work shows us that our expected runtime is at most
+
+$$\mathbb{E}\left(I_X\right) = \sum_{i=1}^{n - X + 1} i \text{Pr}\left\lbrace I_{X} = i\right\rbrace \leq \sum_{i=1}^{n - X + 1} \frac{i X}{n-i+1} \exp\left(-X\frac{(i-1)}{n+1}\right)$$
 
 ### A Randomized Algorithm
 The previous algorithm is what we would consider deterministic, meaning that for the same input the algorithm will return the same answer in the same amount of runtime. In this case, we will consider a Las Vegas styled randomized algorithm, meaning for the same input the algorithm will return the same answer but its runtime can vary. This algorithm is going to be very similar to the previous one, but the twist leads to some interesting results.
