@@ -87,6 +87,10 @@ So now let us consider the average runtime, i.e. the expected runtime. The above
 
 $$\mathbb{E}\left(I_X\right) = \sum_{i=1}^{n - X + 1} i \text{Pr}\left\lbrace I_{X} = i\right\rbrace \leq X \exp\left(\frac{X}{n+1}\right) \sum_{i=1}^{n - X + 1} \frac{i \exp\left(-\frac{Xi}{n+1}\right)}{n-i+1}$$
 
+The above upper bound is not something with a clear exact form, so how might we try to simplify things? Let us first define $f(z) := \frac{z \exp\left(-\frac{X z}{n+1}\right)}{n-z+1}$. If we fix some integers $n$ and $X$ such that $n > X > 1$, we can plot this function and find it has the form
+
+Clearly this function has two regimes, one where the function is monotonically increasing and one where it is monotonically decreasing, these two regimes split by the location of a local maxima for the function. One idea is to separate the sum in the expectation into the two regimes and upper bound them separately, but to do this we require the location for the maxima! 
+
 ### A Randomized Algorithm
 The previous algorithm is what we would consider deterministic, meaning that for the same input the algorithm will return the same answer in the same amount of runtime. In this case, we will consider a Las Vegas styled randomized algorithm, meaning for the same input the algorithm will return the same answer but its runtime can vary. This algorithm is going to be very similar to the previous one, but the twist leads to some interesting results.
 
