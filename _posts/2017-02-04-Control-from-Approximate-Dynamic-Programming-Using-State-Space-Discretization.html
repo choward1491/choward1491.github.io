@@ -110,3 +110,92 @@ V_{N}^{*}(\boldsymbol{x}_{N}) &= g_{N}(\boldsymbol{x}_{N})
 
 
 <p>With the algorithm defined above, one can translate this into a code and apply it to some interesting problems! I have written a code in C++ to implement the above algorithm, which can be found at <a href="https://github.com/choward1491/DeterministicDP">my Github</a>. Assuming one has written the algorithm written above, the next step is to try it out on solving some control problems! Let's take a look at an example.</p>
+
+<h2>Nonlinear Pendulum Control</h2>
+<h3>Problem Statement</h3>
+<p>The Nonlinear Pendulum control problem is one classically considered in most introductory control classes. The full nonlinear problem can be formulated with a nonlinear Second-Order Ordinary Differential Equation (ODE) in the following manner:</p>
+
+\begin{align}
+\ddot{\theta}(t) + c \dot{\theta}(t) + \kappa \sin\left(\theta(t)\right) &= u \\
+\theta(t_0) &= \theta_{0} \\
+\dot{\theta}(t_0) &= \dot{\theta}_{0}
+\end{align}
+
+<p>where $u$ is a torque the controller can apply, and $c,\kappa$ are constants based on the exact pendulum system configuration. For this particular problem, we are going to try and build a controller that can invert the pendulum. Additionally, we are going to constrain the values for $u$ such that it is too weak to directly lift the pendulum up to an inverted position. The constraint is to, at least, make $|u| \lt \kappa$, ensuring it needs to find some different strategy to get the pendulum to an inverted position. Given we now have this problem statement, let's make this problem solvable using the Approximate Dynamic Programming approach shown earlier!</p>
+
+<h3>Conversion to Dynamic Programming Formulation</h3>
+<p>First and formost, we should take the dynamical system in the problem statement and convert it into the discrete dynamic equation Dynamic Programming requires. Our first step is to pose this problem as a system of First-Order differential equations in the following way:</p>
+
+\begin{align}
+\dot{x_1} &= x_2 \\
+\dot{x_2} &= u \; - c x_2 \; - \kappa \sin( x_1 ) \\
+&\text{or} \nonumber \\
+\dot{\boldsymbol{x}} &= F(\boldsymbol{x},u)
+\end{align}
+
+<p>where $\lbrack \theta,\dot{\theta}\rbrack ^{T} = \lbrack x_1,x_2\rbrack^{T} = \boldsymbol{x}$. We can then discretize this dynamical system, using Finite Differences, into one that can be used in Dynamic Programming. This is done using the below steps:</p>
+
+\begin{align}
+\dot{\boldsymbol{x}} &= F(\boldsymbol{x},u) \nonumber \\
+\frac{\boldsymbol{x}_{k+1} - \boldsymbol{x}_{k}}{\Delta t} &\approx F(\boldsymbol{x}_{k},u_k) \nonumber \\
+\boldsymbol{x}_{k+1} &= \boldsymbol{x}_{k} + \Delta t F(\boldsymbol{x}_{k},u_k) \nonumber \\
+\boldsymbol{x}_{k+1} &= f(\boldsymbol{x}_{k},u_k)
+\end{align}
+
+<p>where $f(\cdot,\cdot)$ becomes the discrete dynamical map that is used within the Dynamic Programming formulation. Now the next step is to define our discrete State and Control sets, $\mathcal{X}_{D}$ and $\mathcal{U}_{D}$ respectively, that will be used. These sets will be defined as the following for this problem:</p>
+
+\begin{align}
+\mathcal{X}_{D} &= L(\theta_{min},\theta_{max},N_{\theta}) \bigtimes L(\dot{\theta}_{min},\dot{\theta}_{max},N_{\dot{\theta}}) \\
+\mathcal{U}_{D} &= L(-u_{max},u_{max},N_{u})
+\end{align}
+
+<p>where $\theta_{min},\theta_{max},\dot{\theta}_{min},\dot{\theta}_{max},u_{max}, N_{\theta},N_{\dot{\theta}},N_{u}$ will have exact values assigned based on the specific pendulum problem being solved. The last items needed to make this problem well posed is the cost functions needed to penalize different possible trajectories. For this problem, we will used the cost functions defined below:</p>
+
+\begin{align}
+g_{N}(\boldsymbol{q}) = g_{N}(\theta,\dot{\theta}) &= Q_{f} (|\theta|-\pi)^2 + \dot{\theta}^2\\
+g_{k}(\boldsymbol{q},u) = g_{k}(\theta,\dot{\theta},u) &= Q (|\theta|-\pi)^2 + Ru^2
+\end{align}
+
+<p>where $g_{k}(\cdot,\cdot)$ is defined $\forall k \in \lbrace 1, 2, \cdots, N-1 \rbrace$ and $R, Q, Q_f$ are scalar weighting factors that can be defined depending on how smooth you want the control to be and how quickly you want the pendulum to become inverted. Now that all the items are defined so Dynamic Programming can be used, let's solve this problem and see what we get!</p>
+
+<h3>Solution using Approximate Dynamic Programming</h3>
+<p>Based on the Dynamic Programming formulation above of the Nonlinear Pendulum Control problem, we can crank out an optimal controller (at each timestep) algorithmically. To test the approach, algorithms I wrote that can be found at my Github are using the following values for the parameters mentioned earlier:</p>
+
+\begin{align*}
+N &= 80 \\
+c &= 0.0 \\
+\kappa &= 5.0 \\
+\theta_{min} &= -\pi \\
+\theta_{max} &= \pi \\
+N_{\theta} &= 3000\\
+\dot{\theta}_{min} &= -3 \pi \\
+\dot{\theta}_{max} &= 3 \pi \\
+N_{\dot{\theta}} &= 3000 \\
+u_{max} &= 1.0 \\
+N_{u} &= 5 \\
+R &= 0 \\
+Q &= 10 \\
+Q_f &= 100
+\end{align*}
+
+<p>Note that in the discrete dynamics, due to the discontinuity of the angle $\theta$ at $\theta = -\pi$ and $\theta = \pi$, the discrete dynamics actually need to be modified for the equation updating $\theta$ at each timestep. This equation can be updated to the following:</p>
+
+\begin{align}
+\theta_{k+1} = B( \theta_{k} + \Delta t \dot{\theta}_{k} )
+\end{align}
+
+<p>where $B(\theta)$ bounds the input angle $\theta$ to be between $-\pi$ and $\pi$ and is defined as the following:</p>
+
+\begin{align}
+B(\theta) = \begin{cases}
+\theta \,- 2\pi & \text{if } \theta \gt \pi \\
+\theta + 2\pi & \text{if } \theta \lt -\pi \\
+\theta & \text{Otherwise}
+\end{cases}
+\end{align}
+
+<p>Given we use the modified dynamics for the pendulum, we can use the Approximate Dynamic Programming algorithm described earlier to produce an optimal controller shown below. Note that this controller is actually just the optimal controller found for the first timestep. However, since the cost function penalizes the pendulum for not being inverted throughout its whole trajectory, the controllers made via Dynamic Programming are actually individually capable of inverting and stabilizing the pendulum. Thus, one only really needs one of these optimal controllers to get the desired result.</p>
+
+<p>The graphic below shows the value the controller produces for any given $\theta$ and $\dot{\theta}$ within $\mathcal{X}_{D}$. Yellow is a positive torque value for $u$, while blue is a negative torque value for $u$.</p>
+
+<p><img src="/assets/approx_dp_control/U_medHighFidelity.png" alt="alt text" title="controller" /></p>
