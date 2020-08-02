@@ -22,16 +22,29 @@ $\newcommand{\Real}{\mathbb{R}}$
 x_{k+1} &= x_k - s \left( \nabla f(x_k) + \epsilon_k\right)
 \end{align*}
 
-<p>where $s$ is a positive constant stepsize, $\epsilon_k$ is an error term satisfying $\norm{\epsilon_k} \leq \delta$ for all $k$, and $f$ is the positive definite quadratic form defined as</p>
+<p>where $s$ is a positive constant stepsize, $\epsilon_k$ is an error term satisfying $\norm{\epsilon_k} \leq \delta$ for all non-negative integers $k$, and $f$ is the positive definite quadratic form defined as</p>
 
 \begin{align*}
 f(x) = \frac{1}{2} (x - x^*)^T Q (x - x^*)
 \end{align*}
 
-<p>Let $q = \max \lbrace|1 - s \lambda_{min}(Q)|,|1 - s \lambda_{max}(Q)| \rbrace$, and assume that $q < 1$. Using the above gradient descent approach, I will show that for all $k$, we can bound the distance between the $k^{th}$ iterate and a local optima by the following: \begin{align*} \norm{x_k - x^*} \leq \frac{s \delta}{1 - q} + q^k \norm{x_0 - x^*} \end{align*} where $x_0$ is the starting point for the iterate sequence and $x^*$ is the local optima.</p>
+<p>We will also let $q = \max \lbrace|1 - s \lambda_{min}(Q)|,|1 - s \lambda_{max}(Q)| \rbrace$. With these definitions, we will aim to prove the following main result:</p>
+
+<div class="theorem" >
+    <div class="theorem_name" text="Main Result"></div>
+
+    If $q < 1$, then under the gradient descent sequence above with bounded error, we have that
+
+    \begin{align*} \norm{x_k - x^*} \leq \frac{s \delta}{1 - q} + q^k \norm{x_0 - x^*} \end{align*}
+
+    where $x_0$ is the starting point for the iterate sequence and $x^*$ is the local optima.
+
+</div>
+
+<p>To end up with this main theorem, we will first prove some useful lemmas. To this end, we start with the first lemma.</p>
 
 <div class="lemma" >
-    <div class="lemma_name" text="1"></div>
+    <div class="lemma_name">1</div>
 
     Given a value $0 \leq c < 1$ and that \begin{align*} \norm{x_{k+1} - x^*} \leq s \delta + c \norm{x_k - x^*} \end{align*} we can find a bound for $\norm{x_k - x^*}$ to be \begin{align*} \norm{x_{k} - x^*} \leq \frac{s \delta}{1 - c} + c^k \norm{x_0 - x^*} \end{align*}
 
@@ -48,7 +61,7 @@ f(x) = \frac{1}{2} (x - x^*)^T Q (x - x^*)
 </div>
 
 <div class="lemma" >
-    <div class="lemma_name" text="2"></div>
+    <div class="lemma_name">2</div>
 
     For some symmetric, positive definite matrix $A$ and positive scalar $s$, the following is true:
 
@@ -74,6 +87,7 @@ f(x) = \frac{1}{2} (x - x^*)^T Q (x - x^*)
 
 Our goal in this proof is to arrive at the end result by arriving at statements that allow us to benefit from Lemma 1 and Lemma 2. With that said, we can proceed with this proof as follows:
 
+<div class="proof">
 \begin{align*}
 \norm{x_{k+1} - x^*} &= \norm{\left(x_k - x^*\right) - s \left(\nabla f(x_k) + \epsilon_k\right)} \\
 &= \norm{\left(x_k - x^*\right) - s \left(Q \left(x_k - x^*\right) + \epsilon_k\right)} \\
@@ -84,7 +98,8 @@ Our goal in this proof is to arrive at the end result by arriving at statements 
 &= q \norm{ x_k - x^* } + s \delta \\
 \end{align*}
 
-Since we assume we choose $s$ to be small enough such that $q < 1$, we can use Lemma 1 to further show that \begin{align*} \norm{x_{k+1} - x^*} &\leq q \norm{ x_k - x^* } + s \delta \\ &\leq \frac{s \delta}{1-q} + q^{k+1} \norm{ x_{0} - x^* } \end{align*} Thus showing the result we hope for!
+Since we assume we choose $s$ to be small enough such that $q < 1$, we can use Lemma 1 to further show that \begin{align*} \norm{x_{k+1} - x^*} &\leq q \norm{ x_k - x^* } + s \delta \\ &\leq \frac{s \delta}{1-q} + q^{k+1} \norm{ x_{0} - x^* } \end{align*} Thus showing the result we want!
+</div>
 
 <h2>Numerical Methods</h2>
 
