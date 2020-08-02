@@ -31,7 +31,7 @@ f(x) = \frac{1}{2} (x - x^*)^T Q (x - x^*)
 <p>We will also let $q = \max \lbrace|1 - s \lambda_{min}(Q)|,|1 - s \lambda_{max}(Q)| \rbrace$. With these definitions, we will aim to prove the following main result:</p>
 
 <div class="theorem" >
-    <div class="theorem_name" text="Main Result"></div>
+    <div class="theorem_name">Main Theorem</div>
 
     If $q < 1$, then under the gradient descent sequence above with bounded error, we have that
 
@@ -44,7 +44,7 @@ f(x) = \frac{1}{2} (x - x^*)^T Q (x - x^*)
 <p>To end up with this main theorem, we will first prove some useful lemmas. To this end, we start with the first lemma.</p>
 
 <div class="lemma" >
-    <div class="lemma_name">1</div>
+    <div class="lemma_name">Lemma 1</div>
 
     Given a value $0 \leq c < 1$ and that \begin{align*} \norm{x_{k+1} - x^*} \leq s \delta + c \norm{x_k - x^*} \end{align*} we can find a bound for $\norm{x_k - x^*}$ to be \begin{align*} \norm{x_{k} - x^*} \leq \frac{s \delta}{1 - c} + c^k \norm{x_0 - x^*} \end{align*}
 
@@ -61,7 +61,7 @@ f(x) = \frac{1}{2} (x - x^*)^T Q (x - x^*)
 </div>
 
 <div class="lemma" >
-    <div class="lemma_name">2</div>
+    <div class="lemma_name">Lemma 2</div>
 
     For some symmetric, positive definite matrix $A$ and positive scalar $s$, the following is true:
 
