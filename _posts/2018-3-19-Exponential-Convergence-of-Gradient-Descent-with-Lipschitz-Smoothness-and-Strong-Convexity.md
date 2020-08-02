@@ -2,7 +2,7 @@
 layout: post
 title: Exponential Convergence of Gradient Descent with Lipschitz Smoothness and Strong Convexity
 subtitle: A little bit of theory
-date:   2020-08-01 01:52:00 +0000
+date:   2018-03-19 12:00:00 +0000
 author: Christian
 categories: algorithms math optimization convexity convergence machine-learning
 ---
