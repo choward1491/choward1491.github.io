@@ -1,0 +1,112 @@
+---
+layout: post
+title: Control from Approximate Dynamic Programming Using State-Space Discretization
+subtitle: Recursing through space and time
+date:   2017-02-04 12:00:00 +0000
+author: Christian
+categories: algorithms math linear-algebra control-theory dynamic-programming recursion
+---
+
+<p>In a <a href="https://choward1491.github.io/Intro-to-Dynamic-Programming-Based-Discrete-Optimal-Control/">recent post</a>, principles of Dynamic Programming were used to derive a recursive control algorithm for Deterministic Linear Control systems. The challenges with the approach used in that blog post is that it is only readily useful for Linear Control Systems with linear cost functions. What if, instead, we had a Nonlinear System to control or a cost function with some nonlinear terms? Such a problem would be challenging to solve using the approach described in the former blog post.</p>
+
+<p>In this blog post, we are going to cover a more general approximate Dynamic Programming approach that approximates the optimal controller by essentially discretizing the state space and control space. This approach will be shown to generalize to any nonlinear problems, no matter if the nonlinearity comes from the dynamics or cost function. While this approximate solution scheme is conveniently general in a mathematical sense, the limitations with respect to the Curse of Dimensionality will show why this approach cannot be used for every problem.</p>
+
+<h2>The Approximate Dynamic Programming Formulation</h2>
+<h3>Definitions</h3>
+<p>$\def\bigtimes{\mathop{\vcenter{\huge\times}}}$ To approach approximating these Dynamic Programming problems, we must first start out with an applicable formulation. One of the first steps will be defining various items that will help make the work later more precise and understandable. The first two quantities are that of the complete State Space and Control Space. We can define those two spaces in the following manner:</p>
+
+\begin{align}
+\mathcal{X} &= \bigtimes_{i=1}^{n} \lbrack x_{l}^{(i)}, x_{u}^{(i)}\rbrack \\
+\mathcal{U} &= \bigtimes_{i=1}^{m} \lbrack u_{l}^{(i)}, u_{u}^{(i)}\rbrack
+\end{align}
+
+<p>where $\mathcal{X} \subset \mathbb{R}^{n}$ is the <i>state space</i>, $x_{l}^{(i)}, x_{u}^{(i)}$ are the $i^{th}$ lower and upper bounds of the state space, $\mathcal{U} \subset \mathbb{R}^{m}$ is the <i>control space</i>, and $u_{l}^{(i)}, u_{u}^{(i)}$ are the $i^{th}$ lower and upper bounds of the control space. Now these spaces represent the complete state space and control space. To approximate the Dynamic Programming problem, though, we will instead discretize the State Space and Control Space into subspaces $\mathcal{X}_{D} \subset \mathcal{X}$ and $\mathcal{U}_{D} \subset \mathcal{U}$. We can thus define $\mathcal{X}_{D}$ and $\mathcal{U}_{D}$ in the following manner:</p>
+
+\begin{align}
+\mathcal{X}_{D} &= \bigtimes_{i=1}^{n} L( x_{l}^{(i)}, x_{u}^{(i)}, N_i ) \label{xd} \\
+\mathcal{U}_{D} &= \bigtimes_{i=1}^{m} L( u_{l}^{(i)}, u_{u}^{(i)}, M_i ) \label{ud} \\
+L(a,b,N) &= \left \lbrace a + j \Delta : \Delta = \frac{b-a}{N-1}, j \in \lbrace 0, 1, 2, \cdots, N-1 \rbrace \right \rbrace
+\end{align}
+
+<p>What the formulation above shows is we generate a subset of both $\mathcal{X}$ and $\mathcal{U}$ by breaking up the bounds of the $i^{th}$ dimensions into pieces. With these definitions, we can proceed with the mathematical and algorithmic formulation of the problem!</p>
+
+<h3>Mathematical Formulation</h3>
+<p>To make a general (deterministic) control problem applicable to Dynamic Programming, it needs to fit within the following framework:</p>p>
+
+\begin{align}
+\boldsymbol{x}_{k+1} &= f(\boldsymbol{x}_{k},\boldsymbol{u}_{k}) \\
+%
+\mu_{k}^{*}(\boldsymbol{x}_{j}) &= \arg\min_{\hat{\boldsymbol{u}} \in \mathcal{U}_{D}} g_{k}(\boldsymbol{x}_{j},\hat{\boldsymbol{u}}) + V_{k+1}^{*}(f(\boldsymbol{x}_{j},\hat{\boldsymbol{u}}))\\
+%
+V_{k}^{*}(\boldsymbol{x}_{j}) &= g_{k}(\boldsymbol{x}_{j},\mu_{k}^{*}(\boldsymbol{x}_{j})) + V_{k+1}^{*}(\boldsymbol{x}_{k+1})\\
+%
+V_{k}^{*}(\boldsymbol{x}_{j}) &= g_{k}(\boldsymbol{x}_{j},\mu_{k}^{*}(\boldsymbol{x}_{j})) + V_{k+1}^{*}(f(\boldsymbol{x}_{j},\mu_{k}^{*}(\boldsymbol{x}_{j}))) \nonumber \\
+%
+V_{N}^{*}(\boldsymbol{x}_{N}) &= g_{N}(\boldsymbol{x}_{N})
+\end{align}
+
+<p>$\forall k \in \lbrace 1, 2, 3, \cdots, N-1 \rbrace$, and $\forall j \in \lbrace 1, 2, 3, \cdots, |\mathcal{X}_{D}| \rbrace $. Note as well that $\mu_{k}^{*}(\boldsymbol{x})$ is the optimal controller (or policy) at the $k^{th}$ timestep as a function of some state $\boldsymbol{x} \in \mathcal{X}_{D}$. The idea of the above formulation is we compute a cost at some terminal time, $t_{N}$, using the cost function $g_{N}(\cdot)$, and then work backwards in time recursively to gradually obtain the optimal policy for the problem at each timestep. With the mathematical formulation resolved, the next step is to put all of this into an algorithm!</p>
+
+<h3>The Algorithm</h3>
+<p>The algorithm can be defined in pseudocode using the following:</p>
+
+<div class="algorithm">
+    <div class="algorithm_name" text="Approximate DP for Control"></div>
+    <div class="algo_input">The discretized state space, $\mathcal{X}_D$</div>
+    <div class="algo_input">The discretized control space, $\mathcal{U}_D$</div>
+    <div class="algo_input">The number of time steps to get control, $N$</div>
+    <div class="algo_input">The dynamics, $f : \mathcal{X}_D \times \mathcal{U}_D \rightarrow \mathcal{X}_D$</div>
+    <div class="algo_input">The cost functions during trajectory, $g_k: \mathcal{X}_D \times \mathcal{U}_D \rightarrow \mathbb{R}, \forall k \in \lbrace 1, \cdots, N-1 \rbrace$</div>
+    <div class="algo_output">Optimal policy $\mu_{i}^{*}(x) \forall x \in \mathcal{X}_D, \forall i \in \lbrace 1, \cdots, N-1 \rbrace$</div>
+
+    <p><span class="my_comment">Initialize Optimal Cost-To-Go and Optimal Policy</span></p>
+    <p>init $V_{i}^{*}(x) = \infty$ $\forall x \in \mathcal{X}_D, \forall i \in \lbrace 1, \cdots, N\rbrace$</p>
+    <p>init $\mu_{i}^{*}(x) = 0$ $\forall x \in \mathcal{X}_D, \forall i \in \lbrace 1, \cdots, N-1\rbrace$</p>
+
+    <p><span class="my_comment">Compute policy by working backwards in time</span></p>
+    <div class="for_loop"> $i$ from $N$ down to $1$
+        <ul>
+        	<li><div class="foreach_loop"> $x \in \mathcal{X}_D$
+        		<ul>
+        			<li><div class="if_cond"> $i = N$
+		                    <ul>
+		                        <li>$V_i^{*}(x) = g_{N}(x)$</li>
+		                    </ul>
+		                </div>
+		                <div class="else_cond">
+		                	<ul>
+		                		<li>init $\hat{V} = 0$</li>
+		                		<li>
+		                			<div class="foreach_loop"> $u \in \mathcal{u}_D$
+
+		                				<ul>
+		                					<li>
+		                						$\hat{V} = g_{i}(x,u) + V_{i+1}^{*}\left(f(x,u)\right)$
+		                					</li>
+
+		                					<li>
+		                						<div class="if_cond"> $\hat{V} < V_{i}^{*}(x)$
+		                							<ul>
+		                								<li>$V_{i}^{*}(x) = \hat{V}$</li>
+		                								<li>$\mu_{i}^{*}(x) = u$</li>
+		                							</ul>
+		                						</div>
+		                						<div class="endif"></div>
+		                					</li>
+		                				</ul>
+
+		                			</div>
+		                		</li>
+		                	</ul>
+		                </div>
+		                <div class="endif"></div>
+        			</li>
+        		</ul>
+        	</div></li>
+        </ul>
+    </div>
+    <div class="return">$\mu_i^{*}$ for all $i \in \lbrace 1, \cdots, N-1\rbrace$</div>
+</div>
+
+
+<p>With the algorithm defined above, one can translate this into a code and apply it to some interesting problems! I have written a code in C++ to implement the above algorithm, which can be found at <a href="https://github.com/choward1491/DeterministicDP">my Github</a>. Assuming one has written the algorithm written above, the next step is to try it out on solving some control problems! Let's take a look at an example.</p>
