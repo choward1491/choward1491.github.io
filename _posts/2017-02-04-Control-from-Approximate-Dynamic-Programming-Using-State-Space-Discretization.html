@@ -13,14 +13,14 @@ categories: algorithms math linear-algebra control-theory dynamic-programming re
 
 <h2>The Approximate Dynamic Programming Formulation</h2>
 <h3>Definitions</h3>
-<p>$\def\bigtimes{\mathop{\vcenter{\huge\times}}}$ To approach approximating these Dynamic Programming problems, we must first start out with an applicable formulation. One of the first steps will be defining various items that will help make the work later more precise and understandable. The first two quantities are that of the complete State Space and Control Space. We can define those two spaces in the following manner:</p>
+<p>$\def\bigtimes{\mathop{\vcenter{\huge\times}}}$ To approach approximating these Dynamic Programming problems, we must first start out with an applicable formulation. One of the first steps will be defining various items that will help make the work later more precise and understandable. The first two quantities are that of the complete state space and control space. We can define those two spaces in the following manner:</p>
 
 \begin{align}
 \mathcal{X} &= \bigtimes_{i=1}^{n} \lbrack x_{l}^{(i)}, x_{u}^{(i)}\rbrack \\
 \mathcal{U} &= \bigtimes_{i=1}^{m} \lbrack u_{l}^{(i)}, u_{u}^{(i)}\rbrack
 \end{align}
 
-<p>where $\mathcal{X} \subset \mathbb{R}^{n}$ is the <i>state space</i>, $x_{l}^{(i)}, x_{u}^{(i)}$ are the $i^{th}$ lower and upper bounds of the state space, $\mathcal{U} \subset \mathbb{R}^{m}$ is the <i>control space</i>, and $u_{l}^{(i)}, u_{u}^{(i)}$ are the $i^{th}$ lower and upper bounds of the control space. Now these spaces represent the complete state space and control space. To approximate the Dynamic Programming problem, though, we will instead discretize the State Space and Control Space into subspaces $\mathcal{X}_{D} \subset \mathcal{X}$ and $\mathcal{U}_{D} \subset \mathcal{U}$. We can thus define $\mathcal{X}_{D}$ and $\mathcal{U}_{D}$ in the following manner:</p>
+<p>where $\mathcal{X} \subset \mathbb{R}^{n}$ is the <i>state space</i>, $x_{l}^{(i)}, x_{u}^{(i)}$ are the $i^{th}$ lower and upper bounds of the state space, $\mathcal{U} \subset \mathbb{R}^{m}$ is the <i>control space</i>, and $u_{l}^{(i)}, u_{u}^{(i)}$ are the $i^{th}$ lower and upper bounds of the control space. Now these spaces represent the complete state space and control space. To approximate the Dynamic Programming problem, though, we will instead discretize the state space and control space into subspaces $\mathcal{X}_{D} \subset \mathcal{X}$ and $\mathcal{U}_{D} \subset \mathcal{U}$. We can thus define $\mathcal{X}_{D}$ and $\mathcal{U}_{D}$ in the following manner:</p>
 
 \begin{align}
 \mathcal{X}_{D} &= \bigtimes_{i=1}^{n} L( x_{l}^{(i)}, x_{u}^{(i)}, N_i ) \label{xd} \\
