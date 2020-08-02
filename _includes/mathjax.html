@@ -1,7 +1,9 @@
 <script>
 MathJax = {
+  loader: {load: ['[tex]/newcommand']},
   tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']]
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    packages: {'[+]': ['newcommand']}
   },
   options: {
     renderActions: {
@@ -18,9 +20,7 @@ MathJax = {
         }
       }, '']
     }
-  },
-  loader: {load: ['[tex]/newcommand']},
-  tex: {packages: {'[+]': ['newcommand']}}
+  }
 };
 </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" async></script>
