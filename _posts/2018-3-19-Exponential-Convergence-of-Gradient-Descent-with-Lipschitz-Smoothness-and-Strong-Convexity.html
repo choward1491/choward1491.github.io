@@ -19,12 +19,12 @@ Now it is neat to know we have some recursion we can use to arrive at a critical
 
 In this post, I'm going to walk through a convergence proof for the case where $f(\cdot)$ is strongly convex and is Lipschitz smooth with a Lipschitz constant $C$ that holds everywhere. This proof will highlight an interesting theoretical result when using Gradient Descent for subsets of problems that satisfy the above criteria. So with that, let us get started!
 
-![alt text](/assets/exp_convergence/Oh-boy-here-we-go.jpg "Oh boy, here we go! meme")
+<p><img src="/assets/exp_convergence/Oh-boy-here-we-go.jpg" alt="alt text" title="Oh boy, here we go! meme" /></p>
 
 $$\require{newcommand}$$
 $$\newcommand{\norm}[1]{\left \lVert #1 \right \rVert}$$
 
-## Theoretical Analysis
+<h2>Theoretical Analysis</h2>
 
 So the goal in this part of the post is to come up with some theoretical bounds on Gradient Descent that we can use to show convergence to a local minima for some convex function $f: \mathbb{R}^n \rightarrow \mathbb{R}$. To get rolling on that, we should try to use our assumptions on $f$ of strong convexity and Lipschitz smoothness and bring them into a tangible, mathematical form we can use.
 
@@ -91,12 +91,12 @@ f(x_k) - f(x^\*) &\leq K \left(1 - r \right)^k \\
 
 Awesome! As we can see, we are able to bound the error between the minimum and our current estimate of the minimum by an exponentially decreasing term as the number of iterations increases! This shows that Gradient Descent, under the assumptions that $f(x)$ is Lipschitz smooth and strongly convex, leads to an exponential convergence to the local minimum. Note that since $f(x)$ is convex, the local minimum is also the global minimum! With that, we have found a pretty intriguing result!
 
-## Numerical Study
+<h2>Numerical Study</h2>
 
 Just to try and prove this bound makes sense, I put together some basic code to show how the bound compares to the actual convergence. For this problem, I assumed $f(x) = (x - x^{\*})^T Q (x - x^{\*})$ where $Q$ was positive definite and chose $K$ to be $f(x_0)$ since $f(x^{\*}) = 0$. As the figure below shows, the bound certainly overestimates the error and yet still converges exponentially fast!
 
-![alt text](/assets/exp_convergence/bound_compare.png "Comparison of experimental and theoretical results")
+<p><img src="/assets/exp_convergence/bound_compare.png" alt="alt text" title="Comparison of experimental and theoretical results" /></p>
 
-## Conclusion
+<h2>Conclusion</h2>
 
 As we can see in this post, having some extra functions on a function $f(x)$ we would like to minimize can result in some shocking convergence rates and potentially other useful properties! In this instance, we see having a function $f(x)$ that is both Lipschitz smooth and strongly convex results in exponential convergence to the global minimum and we have seen this holds true in a numerical experiment. It's always super cool to see how theory and practice mesh together and looks like in this instance we will be able to use it to better understand how to benefit from Gradient Descent in practice!
