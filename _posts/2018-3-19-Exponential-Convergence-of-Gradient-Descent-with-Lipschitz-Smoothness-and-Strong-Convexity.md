@@ -21,6 +21,7 @@ In this post, I'm going to walk through a convergence proof for the case where $
 
 ![alt text](/assets/exp_convergence/Oh-boy-here-we-go.jpg "Oh boy, here we go! meme")
 
+$$\require{newcommand}$$
 $$\newcommand{\norm}[1]{\left \lVert #1 \right \rVert}$$
 
 ## Theoretical Analysis
