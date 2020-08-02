@@ -211,9 +211,13 @@ Further, the analysis shows that if $\left(\log(1/\delta)/X\right) < 1$, then wi
 
 ### Experimental Comparisons
 
-To ground the differences between both algorithm in reality, we will showcase some experimental results based on a C++ implementation. We will see how the runtimes for both the naive and randomized algorithm play out for different values of $X$ while comparing to the predicted worst case performance when $\delta = 10^{-10}$. To enable us to do this, given some value $X$, a stream $S$ will be constructed so our desired number $n_X$ has all instances at the end of the stream. This stream constructed represents a worst-case input for the naive algorithm and so should give us a clear idea of how the naive algorithm's worst case compares to the empirically seen worst case performance of the randomized algorithm.
+To ground the differences between both algorithm in reality, we will showcase some experimental results based on a C++ implementation. We will see how the runtimes for both the naive and randomized algorithm play out for different values of $X$ while comparing to the predicted worst case performance when $\delta = 10^{-10}$. To enable us to do this, given some value $X$, a stream $S$ will be constructed so our desired number $n_X$ has all instances at the end of the stream. This stream constructed represents a worst-case input for the naive algorithm and so should give us a clear idea of how the naive algorithm's worst case compares to the empirically seen worst case performance of the randomized algorithm. For the experiment, I chose to make the stream with size $n = 10^3$ and re-run the randomized algorithm $m = 10^4$ times to gather enough data to get reasonable estimates of the average and worst case performance of the randomized algorithm. The results from this experiment are shown in the below figure.
 
-The full C++ implementation is shown below and should be compilable using C++11 on any modern operating system.
+![alt text](/assets/streaming/statistics_summary.png "Statistics from algorithm tests using C++ implementation")
+
+As we first glance at the results, one noticeable sight is that the performance gap between the deterministic and randomized algorithm grows as $X$ gets larger, both when looking at the average and worst case performance estimates for the randomized algorithm. This follows the results from the previous analysis since we found the randomized algorithm's performance is inversely proportional to $X$ while the naive algorithm only has a linear decrease in $X$. Further, for $\delta = 10^{-10}$, the bound on the worst case performance for the randomized algorithm was satisfied based on the empirical results, providing credibility to the theorem about the high probability guarantees for the performance.
+
+The full C++ implementation used to generate the data plotted above is shown below and should be compilable using C++11 on any modern operating system.
 
 <pre data-enlighter-language="cpp">
 
@@ -424,3 +428,5 @@ int main(int argc, char** argv){
 	return 0;
 }
 </pre>
+
+### Conclusion
