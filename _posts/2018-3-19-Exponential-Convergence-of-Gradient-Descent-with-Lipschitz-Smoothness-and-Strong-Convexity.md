@@ -41,7 +41,7 @@ f(x) \geq f(y) + \nabla f(y)^T (x - y) + \frac{c}{2} \norm{x - y}^2 \tag{Strong 
 f(x) \leq f(y) + \nabla f(y)^T (x - y) + \frac{C}{2} \norm{x - y}^2 \tag{Lipschitz Smoothness}\\
 \end{align}
 
-Dope! We have some inequalities that should become quite useful shortly! Now let us assume an optimal location $x^*$ exists that such that $f(x^*) = \inf_{v \in \mathbb{R}^n} f(v)$. We can use this assumption to come up with the following useful inequality:
+Dope! We have some inequalities that should become quite useful shortly! Now let us assume an optimal location $x^\*$ exists that such that $f(x^\*) = \inf_{v \in \mathbb{R}^n} f(v)$. We can use this assumption to come up with the following useful inequality:
 
 \begin{align\*}
 f(x^\*) &= \inf_{v} f(v) \\
