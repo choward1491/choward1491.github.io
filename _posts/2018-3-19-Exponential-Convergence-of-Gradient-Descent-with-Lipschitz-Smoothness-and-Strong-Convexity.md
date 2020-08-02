@@ -44,12 +44,12 @@ f(x) \leq f(y) + \nabla f(y)^T (x - y) + \frac{C}{2} \norm{x - y}^2 \tag{Lipschi
 
 Dope! We have some inequalities that should become quite useful shortly! Now let us assume an optimal location $x^\*$ exists that such that $f(x^\*) = \inf_{v \in \mathbb{R}^n} f(v)$. We can use this assumption to come up with the following useful inequality:
 
-\begin{align\*}
+$$\begin{align\*}
 f(x^\*) &= \inf_{v} f(v) \\
 &= \inf_{v} f(x_k + v) \\
 &\geq \inf_{v} \left(f(x_k) + \nabla f(x_k)^T v + \frac{c}{2} \norm{v}^2 \right) \\
 &= f(x_k) - \frac{1}{2c} \norm{\nabla f(x_k)}^2 \tag{$\dagger$}
-\end{align\*}
+\end{align\*}$$
 
 Using the definition of Gradient Descent, Lipschitz smoothness, and the choice of $\alpha_k = \frac{1}{C}$, we can obtain the other useful inequality:
 
