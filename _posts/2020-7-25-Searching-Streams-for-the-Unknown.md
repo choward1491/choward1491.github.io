@@ -217,9 +217,9 @@ The full C++ implementation is shown below and should be compilable using C++11 
 
 <pre data-enlighter-language="cpp">
 
-#include <stdio.h>
-#include <vector>
-#include <random>
+#include &lt;stdio.h>
+#include &lt;vector>
+#include &lt;random>
 
 namespace algo {
 
@@ -229,7 +229,7 @@ namespace algo {
         stream() = default;
         void set_size_stream(size_t n) {
 	        stream_list.resize(n);
-	    }
+		}
         void construct_stream_only_one_with_x_instances(size_t X) {
 	        size_t num = 0;
 	        size_t cntr = 0;
@@ -248,18 +248,18 @@ namespace algo {
 	        for(size_t i = (stream_list.size() - X); i < stream_list.size(); ++i){
 	            stream_list[i] = num;
 	        }
-	    }
-        std::vector<size_t>::const_iterator begin() const {
+		}
+        std::vector&lt;size_t>::const_iterator begin() const {
 	        return stream_list.begin();
-	    }
-        std::vector<size_t>::const_iterator end() const {
+		}
+        std::vector&lt;size_t>::const_iterator end() const {
 	        return stream_list.end();
-	    }
+		}
         
     private:
-        std::vector<size_t> stream_list;
+        std::vector&lt;size_t> stream_list;
         
-    };
+	};
 
     // helper method to compute how often a number appears in the stream
     size_t compute_frequency_of_representative( size_t rep, const stream& s){
@@ -274,7 +274,10 @@ namespace algo {
     namespace naive {
 
     	// naive algorithm's approach to selecting the ith representative
-    	size_t get_representative( size_t i, const stream& s, size_t* size_stream = nullptr){
+    	size_t get_representative( 	size_t i, 
+    								const stream& s, 
+    								size_t* size_stream = nullptr)
+		{
 	        
 	        // init static random engine
 	        size_t rep = 0;
@@ -291,10 +294,13 @@ namespace algo {
 	        
 	        // return the representative
 	        return rep;
-	    }
+		}
 
 	    // naive algorithm for searching for a number that appears at least X times
-        size_t find_number_with_atleast_X_instances( size_t X, const stream& s, size_t* num_passes = nullptr ) {
+        size_t find_number_with_atleast_X_instances( 	size_t X, 
+        												const stream& s, 
+        												size_t* num_passes = nullptr )
+		{
 		    size_t r = 0, freq = 0;
 		    if( num_passes ){ *num_passes = 0; }
 		    
@@ -317,18 +323,20 @@ namespace algo {
     namespace random {
 
     	// randomized algorithm's approach to selecting a new representative
-    	size_t get_representative( const stream& s, size_t* size_stream = nullptr){
+    	size_t get_representative( 	const stream& s, 
+    								size_t* size_stream = nullptr)
+		{
 	        
 	        // init static random engine
 	        static std::mt19937_64 gen;
-	        std::uniform_int_distribution<size_t> U;
+	        std::uniform_int_distribution&lt;size_t> U;
 	        size_t rep = 0;
 	        
 	        // use reservoir sampling to sample a representative
 	        // from the stream
 	        size_t i = 0;
 	        for(size_t num: s){
-	            U = std::uniform_int_distribution<size_t>(0,i++);
+	            U = std::uniform_int_distribution&lt;size_t>(0,i++);
 	            if( U(gen) == 0 ){
 	                rep = num;
 	            }
@@ -340,10 +348,13 @@ namespace algo {
 	        
 	        // return the representative
 	        return rep;
-	    }
+		}
 
 	    // randomized algorithm for searching for a number that appears at least X times
-        size_t find_number_with_atleast_X_instances( size_t X, const stream& s, size_t* num_passes = nullptr ) {
+        size_t find_number_with_atleast_X_instances( 	size_t X, 
+        												const stream& s, 
+        												size_t* num_passes = nullptr )
+		{
         	size_t r = 0, freq = 0;
 		    if( num_passes ){ *num_passes = 2; }
 		    
@@ -363,7 +374,7 @@ namespace algo {
 		    
 		    // return representative found
 		    return r;
-    	}
+		}
     }// end namespace random
 }// end namespace algo
 
@@ -388,8 +399,11 @@ int main(int argc, char** argv){
 
     // naive runtime
     std::cout << "|Naive algorithm performance|" << std::endl;
-    auto number_naive   = algo::naive::find_number_with_atleast_X_instances(X, s, &num_passes);
-    std::cout << "Found " << number_naive << " in " << num_passes << " passes of the stream" << std::endl;
+    auto number_naive   = algo::naive::find_number_with_atleast_X_instances(X, 
+    																		s, 
+    																		&num_passes);
+    std::cout 	<< "Found " << number_naive << " in " 
+    			<< num_passes << " passes of the stream" << std::endl;
     
     // random runtime
     std::cout << std::endl;
@@ -397,12 +411,15 @@ int main(int argc, char** argv){
     size_t num_runs = 10000;
     size_t avg = 0, worst = 0, number_rand = 0;
     for(size_t i = 0; i < num_runs; ++i){
-        number_rand = algo::random::find_number_with_atleast_X_instances(X, s, &num_passes);
+        number_rand = algo::random::find_number_with_atleast_X_instances(	X, 
+																			s, 
+																			&num_passes);
         worst = std::max(worst, num_passes);
         avg += num_passes;
     }
     avg /= num_runs;
-    std::cout << "Found " << number_rand << " in an (average, max) number of (" << avg << ", " << worst << ") passes of the stream" << std::endl;
+    std::cout 	<< "Found " << number_rand << " in an (average, max) number of (" 
+    			<< avg << ", " << worst << ") passes of the stream" << std::endl;
     
     return 0;
 }
