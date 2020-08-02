@@ -2,7 +2,7 @@
 layout: post
 title: Searching Streams for the Unknown
 subtitle: An algorithmic approach
-date:   2020-07-25 01:52:00 +0000
+date:   2020-08-01 01:52:00 +0000
 author: Christian
 categories: algorithms math randomization probability experimental theory
 ---
@@ -11,13 +11,13 @@ In the modern climate of big data, it should not surprise anyone that we can be 
 
 ![alt text](/assets/streaming/big_data.jpg "I love when you call me, Big Data")
 
-With such a data abundance, how do we construct efficient algorithms to handle the limitations of our hardware? Depending on the sort of things you wish to compute with the data, the techniques one might use can be extensive. While one common technique is to use distributed parallel computing to tackle large problems with lots of data at scale. An orthogonal direction to this that we will focus on, though, is something referred to streaming algorithms. 
+With such a data abundance, how do we construct efficient algorithms to handle the limitations of our hardware? Depending on the sort of things you wish to compute with the data, the techniques one might use can be extensive. One direction to achieve this using low extra memory is by the construction of _streaming algorithms_. This topic will be the focus of this post, so let's get rolling!
 
 ### Basic Streaming Algorithm Concepts
 
-So one might ask, what is a streaming algorithm? To start, let us consider what a stream might be. A stream could be viewed as a sequence of data that we start and then run through in the order of the sequence. In some contexts, one can only pass through a stream once while in other contexts one pass through the stream as many times as needed. A streaming algorithm generally corresponds to an algorithm that operates on a stream to compute or estimate some quantity. Often, streaming algorithms operate on the assumption that the stream has so much data within it that algorithms operating on the stream should use a logarithmic or constant amount of data relative to the stream size $n$. If we consider, as an example, a $1$ TB sized file of regression data that we want to process to estimate some neural network parameters, it becomes clear having an algorithm that uses much less than $1$ TB of space to run would be very useful to tackling such a problem. Thus, streaming algorithms can be extremely useful.
+So one might ask, what is a streaming algorithm? To start, let us consider what a stream might be. A stream could be viewed as a sequence of information that we iterate through until we hit the end of the sequence, if there is an end. In some contexts, one can only pass through a stream once while in other contexts one pass through the stream as many times as needed. A streaming algorithm generally corresponds to an algorithm that operates on a stream to compute or estimate some quantity. Often, streaming algorithms operate on the assumption that the stream has so much data within it that algorithms operating on the stream should use a logarithmic or constant amount of added space relative to the stream size $n$. As an example, consider wanting to estimate regression parameters for some model dependent on a $1$ terabyte (TB) file of regression data. It becomes clear that having an algorithm that uses much less than $1$ TB of space to run would be very useful to tackling such a problem. Thus, streaming algorithms can be extremely useful!
 
-### Catching the most common number in the stream
+### Searching for a needle in a haystack
 
 To solidify the idea of a streaming algorithm, we are going to dive into tackling the following problem:
 
@@ -25,7 +25,7 @@ To solidify the idea of a streaming algorithm, we are going to dive into tacklin
 
 This problem came up recently in a discussion with a colleague and I felt it was interesting enough to try and find my own solution for. The rest of this post will go over some algorithms that solve this problem, the first being a pretty obvious deterministic algorithm and the second being a fun one making use of randomness.
 
-### Naive Algorithm
+### The Naive Algorithm
 Before we get to the more interesting algorithm, let us consider what might be viewed as the more naive algorithm to handle this problem. First, define $n_X$ as the desired number that shows up at least $X$ times in the stream. The main idea of the algorithm is going to be deterministically looping over the stream, where at iteration $i$ we set the $i^{th}$ value $s_i$ as a representative and then loop over the stream $S$ and count the number of times this number appears. If this number appears at least $X$ times, we know we have found the desired number $n_X$ and we can terminate. Otherwise, we increment $i$ and continue our search. The explicit pseudocode for this algorithm is defined below.
 
 <div class="algorithm">
@@ -430,3 +430,5 @@ int main(int argc, char** argv){
 </pre>
 
 ### Conclusion
+
+Within this post, we went over some basic concepts behind streaming algorithms and illustrated them through a search problem related to streams. We saw that while deterministic algorithms can be quite simple in the streaming context, sometimes using a bit of randomness can take us a lot further to solving a streaming problem efficiently. We also saw that while the deterministic algorithm had very simple analysis, it can take a bit of mathematical elbow grease to properly understand what randomized algorithms can and cannot do for us. When it comes to streaming, there are many more interesting problems to discover, so I recommend those interested go take a look and explore this deep and interesting area!
