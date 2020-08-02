@@ -207,19 +207,203 @@ Now the above probability corresponds to a _worst-case_ probability that our alg
 
 Now as we decrease $\delta$ towards $0$, our confidence of at least $1 - \delta$ is brought closer and closer to a probability of $1$ that our bound on the runtime holds true. Intuitively, smaller values for $\delta$ should force the bound on the number of times we loop over the stream to grow. The analysis validates this by having a $\log(1/\delta)$ penalty factor in the upper bound to ensure our confidence of at least $1 - \delta$. Pretty interesting! It is also interesting to note that if we choose $\delta = 1/e \approx 0.367$, we have with probability at least $0.63$ that our algorithm loops over the stream at most $(2/X)n$ times, giving us an idea how likely the average performance from earlier is!
 
-Further, the analysis shows that if $\left(\log(1/\delta)/X\right) < 1$, then with probability at most $1 - \delta$ this algorithm has a runtime that is faster than the naive algorithm's worst-case runtime. This is an important observation because this implies there are potentially many instances where this algorithm can out-perform the naive algorithm, in a high probability sense. For example, if we choose $\delta = 10^{-10}$, then inputs where $X > 10 \log(10) > 23$ ensure with probability at least $1 - 10^{-10}$ that our runtime beats the worst-case runtime for the naive algorithm. If we look back at the average runtime bound, we know for $X > 1$ that the average performance with any input beats the naive algorithm on its worst-case input. In this high probability example, we require $X > 23$ to have that same guarantee which is certainly a bit more conservative, but the guarantee is also much stronger than in the average case since the analysis looks at the worst case runtime for some level of confidence.
+Further, the analysis shows that if $\left(\log(1/\delta)/X\right) < 1$, then with probability at most $1 - \delta$ this algorithm has a runtime that is faster than the naive algorithm's worst-case runtime. This is an important observation because this implies there are potentially many instances where this algorithm can out-perform the naive algorithm, in a high probability sense. For example, if we choose $\delta = 10^{-10}$, then inputs where $X \geq 24 > 10 \log(10)$ ensure with probability at least $1 - 10^{-10}$ that our runtime beats the worst-case runtime for the naive algorithm. If we look back at the average runtime bound, we know for $X > 1$ that the average performance with any input beats the naive algorithm on its worst-case input. In this high probability example, we require $X > 23$ to have that same guarantee which is certainly a bit more conservative, but the guarantee is also much stronger than in the average case since the analysis looks at the worst case runtime for some level of confidence.
 
 ### Experimental Comparisons
 
-To ground the differences between both algorithm in reality, we will showcase some experimental results based on a C++ implementation. So to help us judge how useful this algorithm might be, let us see how the runtime is for different values of $X$ and $\delta$. In particular, recall that with each iteration of the algorithm we do $2$ passes of the stream. This implies with probability at least $1-\delta$ that the number of times we pass through the stream is
+To ground the differences between both algorithm in reality, we will showcase some experimental results based on a C++ implementation. We will see how the runtimes for both the naive and randomized algorithm play out for different values of $X$ while comparing to the predicted worst case performance when $\delta = 10^{-10}$. To enable us to do this, given some value $X$, a stream $S$ will be constructed so our desired number $n_X$ has all instances at the end of the stream. This stream constructed represents a worst-case input for the naive algorithm and so should give us a clear idea of how the naive algorithm's worst case compares to the empirically seen worst case performance of the randomized algorithm.
 
-
-If we choose $X = 100$ and $\delta =$
+The full C++ implementation is shown below and should be compilable using C++11 on any modern operating system.
 
 <pre data-enlighter-language="cpp">
-#include "iostream"
+
+#include <stdio.h>
+#include <vector>
+#include <random>
+
+namespace algo {
+
+    class stream {
+    public:
+        
+        stream() = default;
+        void set_size_stream(size_t n) {
+	        stream_list.resize(n);
+	    }
+        void construct_stream_only_one_with_x_instances(size_t X) {
+	        size_t num = 0;
+	        size_t cntr = 0;
+	        
+	        // try to populate the stream with numbers such that all numbers have at most X-1
+	        // instances of themselves in the array
+	        for(size_t i = 0; i < stream_list.size(); ++i){
+	            stream_list[i] = num;
+	            if( (++cntr) == (X-1) ){
+	                ++num; cntr = 0;
+	            }
+	        }// end for i
+	        
+	        // populate the end of the stream with exactly X values of some number
+	        ++num; cntr = 0;
+	        for(size_t i = (stream_list.size() - X); i < stream_list.size(); ++i){
+	            stream_list[i] = num;
+	        }
+	    }
+        std::vector<size_t>::const_iterator begin() const {
+	        return stream_list.begin();
+	    }
+        std::vector<size_t>::const_iterator end() const {
+	        return stream_list.end();
+	    }
+        
+    private:
+        std::vector<size_t> stream_list;
+        
+    };
+
+    // helper method to compute how often a number appears in the stream
+    size_t compute_frequency_of_representative( size_t rep, const stream& s){
+	    size_t cntr = 0;
+	    for(size_t num: s){
+	        cntr += (rep == num);
+	    }// end for loop
+	    
+	    return cntr;
+	}
+
+    namespace naive {
+
+    	// naive algorithm's approach to selecting the ith representative
+    	size_t get_representative( size_t i, const stream& s, size_t* size_stream = nullptr){
+	        
+	        // init static random engine
+	        size_t rep = 0;
+	        
+	        // use reservoir sampling to sample a representative
+	        // from the stream
+	        size_t idx = 0;
+	        for(size_t num: s){
+	            if( i == idx++ ){
+	                rep = num;
+	                break;
+	            }
+	        }// end for loop
+	        
+	        // return the representative
+	        return rep;
+	    }
+
+	    // naive algorithm for searching for a number that appears at least X times
+        size_t find_number_with_atleast_X_instances( size_t X, const stream& s, size_t* num_passes = nullptr ) {
+		    size_t r = 0, freq = 0;
+		    if( num_passes ){ *num_passes = 0; }
+		    
+		    // keep trying to choose the representative
+		    // until you find a number with at least
+		    // X instances in the stream
+		    int i = 0;
+		    while(freq < X){
+		        r = naive::get_representative(i++, s);
+		        freq = compute_frequency_of_representative(r, s);
+		        if( num_passes ){ *num_passes += 2; }
+		    }
+		    
+		    // return representative found
+		    return r;
+		}
+
+    }// end namespace naive
+
+    namespace random {
+
+    	// randomized algorithm's approach to selecting a new representative
+    	size_t get_representative( const stream& s, size_t* size_stream = nullptr){
+	        
+	        // init static random engine
+	        static std::mt19937_64 gen;
+	        std::uniform_int_distribution<size_t> U;
+	        size_t rep = 0;
+	        
+	        // use reservoir sampling to sample a representative
+	        // from the stream
+	        size_t i = 0;
+	        for(size_t num: s){
+	            U = std::uniform_int_distribution<size_t>(0,i++);
+	            if( U(gen) == 0 ){
+	                rep = num;
+	            }
+	        }// end for loop
+	        
+	        if( size_stream ){
+	            *size_stream = i;
+	        }
+	        
+	        // return the representative
+	        return rep;
+	    }
+
+	    // randomized algorithm for searching for a number that appears at least X times
+        size_t find_number_with_atleast_X_instances( size_t X, const stream& s, size_t* num_passes = nullptr ) {
+        	size_t r = 0, freq = 0;
+		    if( num_passes ){ *num_passes = 2; }
+		    
+		    // do a first pass to get not only the first representative,
+		    // but also figure out the size of the stream
+		    r = random::get_representative(s);
+		    freq = compute_frequency_of_representative(r, s);
+		    
+		    // keep trying to estimate the representative
+		    // until you find a number with at least
+		    // X instances in the stream
+		    while(freq < X){
+		        r = random::get_representative(s);
+		        freq = compute_frequency_of_representative(r, s);
+		        if( num_passes ){ *num_passes += 2; }
+		    }
+		    
+		    // return representative found
+		    return r;
+    	}
+    }// end namespace random
+}// end namespace algo
+
 int main(int argc, char** argv){
-	std::cout << "Hi there!" << std::endl;
-	return 0;
+    
+    // the value X representing the minimum number
+    // of times our desired number appears in the
+    // stream and the strict upper bound on how
+    // many times any other number appears
+    size_t X = 24;
+
+    // construct the stream with a worst case input
+    // for the deterministic algorithm
+    algo::stream s;
+    s.set_size_stream(1000);
+    s.construct_stream_only_one_with_x_instances(X);
+    
+    // init temporary variable for retrieving the
+    // number of times we loop over the stream
+    // before we find the desired number
+    size_t num_passes = 0;
+
+    // naive runtime
+    std::cout << "|Naive algorithm performance|" << std::endl;
+    auto number_naive   = algo::naive::find_number_with_atleast_X_instances(X, s, &num_passes);
+    std::cout << "Found " << number_naive << " in " << num_passes << " passes of the stream" << std::endl;
+    
+    // random runtime
+    std::cout << std::endl;
+    std::cout << "|Randomized algorithm performance|" << std::endl;
+    size_t num_runs = 10000;
+    size_t avg = 0, worst = 0, number_rand = 0;
+    for(size_t i = 0; i < num_runs; ++i){
+        number_rand = algo::random::find_number_with_atleast_X_instances(X, s, &num_passes);
+        worst = std::max(worst, num_passes);
+        avg += num_passes;
+    }
+    avg /= num_runs;
+    std::cout << "Found " << number_rand << " in an (average, max) number of (" << avg << ", " << worst << ") passes of the stream" << std::endl;
+    
+    return 0;
 }
 </pre>
