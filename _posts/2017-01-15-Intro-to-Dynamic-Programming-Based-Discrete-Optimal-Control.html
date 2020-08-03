@@ -255,7 +255,7 @@ V_{k} &= \boldsymbol{x}_{k}^{T}Q_{k}\boldsymbol{x}_{k} + \boldsymbol{u}_{k}^{T}R
 \boldsymbol{u}_{k} &= -K_{k} \boldsymbol{x}_{k}
 \end{align*}
 
-<p>where $K_{k} = \left( R_{k} + B_{k}^{T}P_{k+1}B_{k} \right)^{-1} B_{k}^{T}P_{k+1}A_{k}$. Now with the solution to the optimal control specified as $\boldsymbol{u}_{k} = -K_{k} \boldsymbol{x}_{k}$, we can substitute the result into equation $\refp{eq1}$ and get a recursive expression for $P_{k}$ in terms of known quantities. Thus:</p>
+<p>where $K_{k} = \left( R_{k} + B_{k}^{T}P_{k+1}B_{k} \right)^{-1} B_{k}^{T}P_{k+1}A_{k}$. Now with the solution to the optimal control specified as $\boldsymbol{u}_{k} = -K_{k} \boldsymbol{x}_{k}$, we can make a substitution with the result and get a recursive expression for $P_{k}$ in terms of known quantities. Thus:</p>
 
 \begin{align}
 V_{k} &= \boldsymbol{x}_{k}^{T}Q_{k}\boldsymbol{x}_{k} + \boldsymbol{u}_{k}^{T}R_{k}\boldsymbol{u}_{k} + \left(A_{k} \boldsymbol{x}_{k} + B_{k} \boldsymbol{u}_{k}\right)^{T}P_{k+1}\left(A_{k} \boldsymbol{x}_{k} + B_{k} \boldsymbol{u}_{k}\right) \\
