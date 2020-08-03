@@ -79,23 +79,3 @@ categories: algorithms math randomization probability experimental theory
 \[n = \frac{1}{2}\epsilon^{-2}V(\mathcal{H})^2 \left(M_U - M_L\right)^2 \log{\left(\frac{2}{\delta}\right)}\]
 
 <p>This value for $n$ corresponds to how large of a sample we would need to ensure our maximum estimation error $\epsilon$ and maximum error probability $\delta$ are both satisfied. You can view this result as the sample complexity of our algorithm, which tells us that it has a polynomial dependence on both $\frac{1}{\epsilon}$ and $\log(1/\delta)$. This polynomial dependence in turn tells us that the smaller we choose $\epsilon$ and $\delta$, the more samples we should expect to use to satisfy our two error requirements.</p> 
-
-<p>Now suppose that we set $\mathcal{H} = [s_1, t_1] \times [s_2, t_2] \times \cdots \times [s_d, t_d] \subseteq \mathbb{R}^d$ and choose $f(\bv{x}) = \bv{1}_{\Omega}(\bv{x})$ for some $\Omega \subseteq \mathcal{H}$. This gives us that</p>
-
-\begin{align*}
-    I &= \Expect[\bv{x} \sim p]{\bv{1}_{\Omega}(\bv{x})} \prod_{i=1}^d \left(t_i - s_i\right) \\
-    &= \Prob{\bv{x} \in \Omega} \prod_{i=1}^d \left(t_i - s_i\right)
-\end{align*}
-
-<p>Now suppose we randomly sample $n$ points $\lbrace \bv{x}_i \rbrace_{i=1}^n$ from the $d$-orthotope, or $d$-dimensional hyperrectangle, and define random variables $X_i$ such that $X_i = 1$ if and only if $\bv{x}_i \in \Omega$, implying that $X_i(\bv{x}) := \bv{1}_{\Omega}(\bv{x})$. Looking at just one of these random variables, we can see that</p>
-
-\begin{align*}
-    \Expect[\bv{x} \sim p]{X_i(\bv{x})} &= \Expect[\bv{x} \sim p]{\bv{1}_{\Omega}(\bv{x})}\\
-    &= \Prob{\bv{x} \in \Omega}
-\end{align*}
-
-<p>This implies that if we define $X = \frac{1}{n} \sum_{i=1}^n$, we readily find that</p>
-
-\[\Expect[\bv{x} \sim p]{X(\bv{x})} = \frac{1}{n} \sum_{i=1}^n \Expect[\bv{x} \sim p]{X_i} = \frac{n \Prob{\bv{x} \in \Omega}}{n} = \Prob{\bv{x} \in \Omega}\]
-
-<p>So this now gives us a clue at an algorithm for approximating our integral $I$, namely randomly draw points from $\mathcal{H}$ with uniform probability and then checking if they are inside our volume $\Omega$! If they are, we increment a counter and, after $n$ samples, divide that result by $n$ to approximate $\Prob{\bv{x} \in \Omega}$ and in turn our desired expectation. A fair question to ask then is, how often should we expect to produce a sufficient quality approximation and what is the quality of this approximation in the first place?</p>
