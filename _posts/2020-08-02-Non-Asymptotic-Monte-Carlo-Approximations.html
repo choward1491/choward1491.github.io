@@ -33,19 +33,16 @@ categories: algorithms math randomization probability experimental theory
 
 <div class="algorithm">
     <div class="algorithm_name" text="Monte Carlo Integral Approximation"></div>
-    <div class="algo_input">$\bv{1}_{\Omega}(\bv{x})$, the indicator function for $\Omega$</div>
-    <div class="algo_input">$f(\bv{x})$, the function we wish to integrate over $\Omega$</div>
-    <div class="algo_input">$\mathcal{H}$, a representation for our bounding hyperrectangle</div>
-    <div class="algo_input">$n$, the number of random samples used to construct estimate</div>
+    <div class="algo_input">$\left(f(\bv{x}), \bv{1}_{\Omega}(\bv{x}), \mathcal{H}, n\right)$</div>
     <div class="algo_output">$\hat{I}$, estimate for integral value</div>
     <p>$\hat{I} := 0$ <span class="my_comment">initialize integral estimate to $0$</span></p>
     <div class="for_loop"> $i$ from $1$ to $n$
         <ul>
-            <li>Randomly sample $\bv{x}$ from $U(\mathcal{H})</li>
+            <li>Randomly sample $\bv{x}$ from $U(\mathcal{H})$</li>
             <li>$\hat{I} \leftarrow \hat{I} + \frac{\bv{1}_{\Omega}(\bv{x})f(\bv{x})}{n}$</li>
         </ul>
     </div>
-    <div class="return">$\hat{I}$</div>
+    <div class="return">$V(\mathcal{H})\hat{I}$</div>
 </div>
 
 <p>Now as one should ask, how does this randomized algorithm stack up against the true integral value? Can we guarantee with any sort of confidence a desired accuracy? With that, we need to state and make use of the following well known result, \textit{Hoeffding's Inequality}.</p>
