@@ -210,7 +210,7 @@ B(\theta) = \begin{cases}
 
 <p>Now while the above algorithm has proven to produce some pretty awesome results, the practicality of the algorithm as-is is pretty small. For starters, the amount of space needed for storing the complete controller at each timestep is on the order of $O( N |\mathcal{X}_{D}| )$, while the algorithmic computation is on the order of $O(N |\mathcal{X}_{D}| |\mathcal{U}_{D}| )$. For low dimensional problems, this may not seem like a big deal, but both $|\mathcal{X}_{D}|$ and $|\mathcal{U}_{D}|$ blow up as dimensions increase due to the Curse of Dimensionality.</p>
 
-<p>For example, given equations $\refp{xd}$ and $\refp{ud}$, we can compute the cardinality of $\mathcal{X}_{D}$ and $\mathcal{U}_{D}$ to be the following:</p>
+<p>For example, given equations from the definitions section, we can compute the cardinality of $\mathcal{X}_{D}$ and $\mathcal{U}_{D}$ to be the following:</p>
 
 \begin{align}
 |\mathcal{X}_{D}| &= \prod_{i=1}^{n} N_{i} \\
