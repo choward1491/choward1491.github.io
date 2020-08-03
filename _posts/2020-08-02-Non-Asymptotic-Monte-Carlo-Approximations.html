@@ -14,7 +14,7 @@ categories: algorithms math randomization probability experimental theory
     &= \int_{\Omega} 1 \cdot f(\bv{x}) d\bv{x} + \int_{\mathcal{H} \setminus \Omega} 0 \cdot f(\bv{x}) d\bv{x} \\
     &= \int_{\Omega} \bv{1}_{\Omega}(\bv{x}) f(\bv{x}) d\bv{x} + \int_{\mathcal{H} \setminus \Omega} \bv{1}_{\Omega}(\bv{x}) f(\bv{x}) d\bv{x} \\
     &= \int_{\mathcal{H}} \bv{1}_{\Omega}(\bv{x}) f(\bv{x}) d\bv{x} \\
-    &= V(\mathcal{H}) \int_{\mathcal{H}} \bv{1}_{\Omega}(\bv{x}) f(\bv{x}) V(\mathcal{H})^{-1} d\bv{x} \tag{use $1 = \frac{V(\mathcal{H})}{V(\mathcal{H})}$}\\
+    &= V(\mathcal{H}) \int_{\mathcal{H}} \bv{1}_{\Omega}(\bv{x}) f(\bv{x}) V(\mathcal{H})^{-1} d\bv{x} \tag{use $1 = V(\mathcal{H})/V(\mathcal{H})$}\\
     &= V(\mathcal{H}) \Expect[\bv{x} \sim U(\Omega)]{\bv{1}_{\Omega}(\bv{x}) f(\bv{x}) }
 \end{align*}
 
