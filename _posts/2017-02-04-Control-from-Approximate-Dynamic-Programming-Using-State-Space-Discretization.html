@@ -199,3 +199,28 @@ B(\theta) = \begin{cases}
 <p>The graphic below shows the value the controller produces for any given $\theta$ and $\dot{\theta}$ within $\mathcal{X}_{D}$. Yellow is a positive torque value for $u$, while blue is a negative torque value for $u$.</p>
 
 <p><img src="/assets/approx_dp_control/U_medHighFidelity.png" alt="alt text" title="controller" /></p>
+
+<p>As we can see in the graphic above, the optimal controller produced using Dynamic Programming is extremely nonlinear. Looking at the result, it would be hard to think of a great way to even represent this controller using a finite approximation with some set of basis functions.</p>
+
+<p>The result is also interesting due to the complexity of the controller and patterns produced for various values for $\theta$ and $\dot{\theta}$. While there is certainly analysis that could be done to further understand what the optimal controller is doing, it would probably just be better to get a glimpse at what this policy actually does via visualization. Below is a video showing how it performs!</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/nTRufHhxs7E" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<h2>Shortcomings of Algorithm</h2>
+
+<p>Now while the above algorithm has proven to produce some pretty awesome results, the practicality of the algorithm as-is is pretty small. For starters, the amount of space needed for storing the complete controller at each timestep is on the order of $O( N |\mathcal{X}_{D}| )$, while the algorithmic computation is on the order of $O(N |\mathcal{X}_{D}| |\mathcal{U}_{D}| )$. For low dimensional problems, this may not seem like a big deal, but both $|\mathcal{X}_{D}|$ and $|\mathcal{U}_{D}|$ blow up as dimensions increase due to the Curse of Dimensionality.</p>
+
+<p>For example, given equations $\refp{xd}$ and $\refp{ud}$, we can compute the cardinality of $\mathcal{X}_{D}$ and $\mathcal{U}_{D}$ to be the following:</p>
+
+\begin{align}
+|\mathcal{X}_{D}| &= \prod_{i=1}^{n} N_{i} \\
+|\mathcal{U}_{D}| &= \prod_{i=1}^{m} M_{i}
+\end{align}
+
+<p>These cardinality results show that each dimension we add multiplies the size of the State and Control spaces, in turn making the values of $|\mathcal{X}_{D}|$ and $|\mathcal{U}_{D}|$ potentially huge! For example, if all we did was model a rocket in 3D, the state is 12 dimensions (or 13 if you use quaternions). Chopping up each dimension into just $10$ discrete pieces would make $|\mathcal{X}_{D}| = 10^{12}$ ... which is way too huge a number to use practically, and $10$ discrete pieces per dimension is not even a lot! So even without looking at any discretized control space, this Approximate Dynamic Programming method proves impractical for a realistic problem.</p>
+
+<h2>Conclusion</h2>
+
+<p>Within this post, we saw a way to use Dynamic Programming and approximately tackle deterministic control problems... no matter how nonlinear the dynamics or cost functions are! We saw the algorithm described used to find a nonlinear optimal controller for a Nonlinear Pendulum and invert the pendulum. We also saw how impractical this method, as-is, can be for realistic problems of larger dimensionality.</p>
+
+<p>While the dimensionality does become a problem for a variety of problems, there are fortunately still some problems that can be adequately solved using the above approach. For those looking for something more capable, those interested can investigate other Approximate Dynamic Programming techniques in the literature. Some related areas of potential interest is that of Reinforcement Learning, as these areas are attempting to solve the same problem but with more flexibility than traditional Dynamic Programming.</p>
