@@ -6,7 +6,11 @@ MathJax = {
     displayMath: [             // start/end delimiter pairs for display math
       ['$$', '$$'],
       ['\\[', '\\]']
-    ]
+    ],
+    macros: {
+      bv: ["{\\boldsymbol{#1}}", 1],
+      Prob: ["{\\text{Pr}\\left\\lbrace #1 \\right\\rbrace}",1]
+    }
   },
   options: {
     renderActions: {
