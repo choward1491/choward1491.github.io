@@ -74,7 +74,7 @@ categories: algorithms math randomization probability experimental theory
 
 \[|\hat{I} - I| < V(\mathcal{H}) (M_u - M_L)\sqrt{\frac{1}{2n}\log{\left(\frac{2}{\delta}\right)}}\]
 
-<p>This inequality gives us some interesting insights. At a high level, the error gets worse the more confidence we desire from the randomized algorithm. Further, the error decays as $\sqrt{n}$ increases, which is not terribly fast. specifically that the error is not only inversely proportional to $\sqrt{n}$, but we have a $\sqrt{\log\left(1/\delta\right)}$ dependence in the error as If we assume $\epsilon$ and $\delta$ are fixed, we can solve the equality for $n$, giving us</p>
+<p>This inequality gives us some interesting insights. We can see that while the error decreases at a rate of $\sqrt{n}$, we also have a $\sqrt{\log\left(1/\delta\right)}$ dependence in the error that grows as we shrink our maximum allowable error probability $\delta$. Now if we assume $\epsilon$ and $\delta$ are fixed, we can solve the equality for $n$, giving us</p>
 
 \[n = \frac{1}{2}\epsilon^{-2}V(\mathcal{H})^2 \left(M_U - M_L\right)^2 \log{\left(\frac{2}{\delta}\right)}\]
 
