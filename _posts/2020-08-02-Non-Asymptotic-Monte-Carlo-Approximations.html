@@ -1,0 +1,85 @@
+---
+layout: post
+title: Non-Asymptotic Monte Carlo Approximations
+subtitle: With a little bit of rigor
+date:   2020-08-02 12:00:00 +0000
+author: Christian
+categories: algorithms math randomization probability experimental theory
+---
+
+<p>Suppose we are given some region $\Omega \subseteq \mathbb{R}^d$ where we would like to integrate a function $f(\bv{x})$. Suppose there exists a $d$-dimensional hyperrectangle $\mathcal{H}$, also referred to as a $d$-orthotope, such that $\Omega \subseteq \mathcal{H}$ and $\mathcal{H} = \bigtimes_{i=1}^d [s_i, t_i]$. If we define $\bv{1}_{A}(\bv{x})$ as an indicator function that returns 1 if and only if $\bv{x} \in A$, then we can write out integral in the following manner</p>
+
+\begin{align*}
+    I &= \int_{\Omega} f(\bv{x}) d\bv{x} \\
+    &= \int_{\Omega} 1 \cdot f(\bv{x}) d\bv{x} + \int_{\mathcal{H} \setminus \Omega} 0 \cdot f(\bv{x}) d\bv{x} \\
+    &= \int_{\Omega} \bv{1}_{\Omega}(\bv{x}) f(\bv{x}) d\bv{x} + \int_{\mathcal{H} \setminus \Omega} \bv{1}_{\Omega}(\bv{x}) f(\bv{x}) d\bv{x} \\
+    &= \int_{\mathcal{H}} \bv{1}_{\Omega}(\bv{x}) f(\bv{x}) d\bv{x} \\
+    &= V(\mathcal{H}) \int_{\mathcal{H}} \bv{1}_{\Omega}(\bv{x}) f(\bv{x}) V(\mathcal{H})^{-1} d\bv{x} \tag{use $1 = \frac{V(\mathcal{H})}{V(\mathcal{H})}$}\\
+    &= V(\mathcal{H}) \Expect[\bv{x} \sim U(\Omega)]{\bv{1}_{\Omega}(\bv{x}) f(\bv{x}) }
+\end{align*}
+
+<p>where $p(\bv{x}) := V(\mathcal{H})^{-1}$ is the uniform density function corresponding to the uniform distribution $U(\mathcal{H})$. Now consider the random variable $Y$ distributed via $U(\mathcal{H})$ where $Y(\bv{x}) = f(\bv{x})$ if and only if $\bv{x} \in \Omega$. This random variable has the same value as $\bv{1}_{\Omega}(\bv{x}) f(\bv{x})$, implying that</p>
+
+\begin{align*}
+    I &= V(\mathcal{H}) \Expect[\bv{x} \sim p]{\bv{1}_{\Omega}(\bv{x}) f(\bv{x}) } \\
+    &= V(\mathcal{H}) \Expect{Y}
+\end{align*}
+
+<p>Now suppose we have a set of $n$ random variables $X_1, \cdots, X_n$ that are independent copies of $Y$ and define $X := \frac{1}{n} \sum_{i=1}^n X_i$. Notice that</p>
+
+\[\Expect{X} = \frac{1}{n} \sum_{i=1}^n \Expect{X_i} = \frac{n \Expect{Y}}{n} = \Expect{Y}\]
+
+<p>This result actually gives us some insight for a randomized algorithm that can approximate the integral in question! In particular, suppose we randomly sample $n$ points $\lbrace \bv{x}_i \rbrace_{i=1}^n$ from $\mathcal{H}$ uniformly and independently. We will then maintain a sum where for each $\bv{x}_i \in \Omega$, we add $f(\bv{x}_i)$ to that sum and otherwise add nothing. After doing this for each point, we divide the result by $n$ and multiply by $V(\mathcal{H})$ to get our integral estimate $\hat{I}$. This algorithm is compactly described below:</p>
+
+<p>Now as one should ask, how does this randomized algorithm stack up against the true integral value? Can we guarantee with any sort of confidence a desired accuracy? With that, we need to state and make use of the following well known result, \textit{Hoeffding's Inequality}.</p>
+
+<div class="theorem">
+	<div class="theorem_name" text="Hoeffding's Inequality"></div>
+	Suppose we have a collection of independent random variables $X_1, X_2, \cdots, X_n$ where $a_i \leq X_i \leq b_i$ for all $i$. Then for $X = \frac{1}{n} \sum_{i=1}^n X_i$, we have that
+
+	\[ \Prob{\left| X - \Expect{X} \right| \geq t} \leq 2 \exp\left(-\frac{2 n^2 t^2}{\sum_{i=1}^n (b_i - a_i)^2}\right)\]
+</div>
+
+<p>In our case, suppose that in the finite domain $\Omega$, $M_L$ is the smallest value $f$ attains and similarly $M_U$ is the largest value $f$ attains. This implies that $M_L \leq X_i \leq M_U$ for any $i$, which gives us by the above version of Hoeffding's Inequality that</p>
+
+\begin{align*}
+    \Prob{|\hat{I} - I| \geq \epsilon} &= \Prob{|V(\mathcal{H}) X - V(\mathcal{H}) \Expect{X}| \geq \epsilon } \\
+    &= \Prob{|X - \Expect{X}| \geq \frac{\epsilon}{V(\mathcal{H})} } \\
+    &\leq 2 \exp{\left(- \frac{2 n \epsilon^2}{V(\mathcal{H})^2 \left(M_U - M_L\right)^2}\right)}
+\end{align*}
+
+<p>The above can be viewed as an error probability, letting us know the worst cases chance we have of achieving an error larger than $\epsilon$ between the true integral value and our estimate. Suppose we wish for our error probability to be at most $\delta$. This implies that $n$, $\epsilon$, and $\delta$ must satisfy the following inequality</p>
+
+\[2 \exp{\left(- \frac{2 n \epsilon^2}{V(\mathcal{H})^2 \left(M_U - M_L\right)^2}\right)} = \delta \]
+
+<p>If we assume $n$ and $\delta$ are fixed, we can solve the above equality for $\epsilon$, finding</p>
+
+\[\epsilon = V(\mathcal{H}) (M_u - M_L)\sqrt{\frac{1}{2n}\log{\left(\frac{2}{\delta}\right)}}\]
+
+<p>which tells us that with probability at least $1 - \delta$, the absolute error between the exact and estimated integral values are</p>
+
+\[|\hat{I} - I| < V(\mathcal{H}) (M_u - M_L)\sqrt{\frac{1}{2n}\log{\left(\frac{2}{\delta}\right)}}\]
+
+<p>This inequality gives us some interesting insights. At a high level, the error gets worse the more confidence we desire from the randomized algorithm. Further, the error decays as $\sqrt{n}$ increases, which is not terribly fast. specifically that the error is not only inversely proportional to $\sqrt{n}$, but we have a $sqrt{\log\left(1/\delta\right)}$ dependence in the error as If we assume $\epsilon$ and $\delta$ are fixed, we can solve the equality for $n$, giving us</p>
+
+\[n = \frac{1}{2}\epsilon^{-2}V(\mathcal{H})^2 \left(M_U - M_L\right)^2 \log{\left(\frac{2}{\delta}\right)}\]
+
+<p>Using this, suppose that we set $\mathcal{H} = [s_1, t_1] \times [s_2, t_2] \times \cdots \times [s_d, t_d] \subseteq \mathbb{R}^d$ and choose $f(\bv{x}) = \bv{1}_{\Omega}(\bv{x})$ for some $\Omega \subseteq \mathcal{H}$. This gives us that</p>
+
+\begin{align*}
+    I &= \Expect[\bv{x} \sim p]{\bv{1}_{\Omega}(\bv{x})} \prod_{i=1}^d \left(t_i - s_i\right) \\
+    &= \Prob{\bv{x} \in \Omega} \prod_{i=1}^d \left(t_i - s_i\right)
+\end{align*}
+
+<p>Now suppose we randomly sample $n$ points $\lbrace \bv{x}_i \rbrace_{i=1}^n$ from the $d$-orthotope, or $d$-dimensional hyperrectangle, and define random variables $X_i$ such that $X_i = 1$ if and only if $\bv{x}_i \in \Omega$, implying that $X_i(\bv{x}) := \bv{1}_{\Omega}(\bv{x})$. Looking at just one of these random variables, we can see that</p>
+
+\begin{align*}
+    \Expect[\bv{x} \sim p]{X_i(\bv{x})} &= \Expect[\bv{x} \sim p]{\bv{1}_{\Omega}(\bv{x})}\\
+    &= \Prob{\bv{x} \in \Omega}
+\end{align*}
+
+<p>This implies that if we define $X = \frac{1}{n} \sum_{i=1}^n$, we readily find that</p>
+
+\[\Expect[\bv{x} \sim p]{X(\bv{x})} = \frac{1}{n} \sum_{i=1}^n \Expect[\bv{x} \sim p]{X_i} = \frac{n \Prob{\bv{x} \in \Omega}}{n} = \Prob{\bv{x} \in \Omega}\]
+
+<p>So this now gives us a clue at an algorithm for approximating our integral $I$, namely randomly draw points from $\mathcal{H}$ with uniform probability and then checking if they are inside our volume $\Omega$! If they are, we increment a counter and, after $n$ samples, divide that result by $n$ to approximate $\Prob{\bv{x} \in \Omega}$ and in turn our desired expectation. A fair question to ask then is, how often should we expect to produce a sufficient quality approximation and what is the quality of this approximation in the first place?</p>

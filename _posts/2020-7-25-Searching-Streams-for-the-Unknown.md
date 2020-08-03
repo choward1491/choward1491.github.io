@@ -2,7 +2,7 @@
 layout: post
 title: Searching Streams for the Unknown
 subtitle: An algorithmic approach
-date:   2020-08-01 01:52:00 +0000
+date:   2020-07-25 01:52:00 +0000
 author: Christian
 categories: algorithms math randomization probability experimental theory
 ---
