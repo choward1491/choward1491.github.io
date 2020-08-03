@@ -31,6 +31,23 @@ categories: algorithms math randomization probability experimental theory
 
 <p>This result actually gives us some insight for a randomized algorithm that can approximate the integral in question! In particular, suppose we randomly sample $n$ points $\lbrace \bv{x}_i \rbrace_{i=1}^n$ from $\mathcal{H}$ uniformly and independently. We will then maintain a sum where for each $\bv{x}_i \in \Omega$, we add $f(\bv{x}_i)$ to that sum and otherwise add nothing. After doing this for each point, we divide the result by $n$ and multiply by $V(\mathcal{H})$ to get our integral estimate $\hat{I}$. This algorithm is compactly described below:</p>
 
+<div class="algorithm">
+    <div class="algorithm_name" text="Monte Carlo Integral Approximation"></div>
+    <div class="algo_input">$\bv{1}_{\Omega}(\bv{x})$, the indicator function for $\Omega$</div>
+    <div class="algo_input">$f(\bv{x})$, the function we wish to integrate over $\Omega$</div>
+    <div class="algo_input">$\mathcal{H}$, a representation for our bounding hyperrectangle</div>
+    <div class="algo_input">$n$, the number of random samples used to construct estimate</div>
+    <div class="algo_output">$\hat{I}$, estimate for integral value</div>
+    <p>$\hat{I} := 0$ <span class="my_comment">initialize integral estimate to $0$</span></p>
+    <div class="for_loop"> $i$ from $1$ to $n$
+        <ul>
+            <li>Randomly sample $\bv{x}$ from $U(\mathcal{H})</li>
+            <li>$\hat{I} \leftarrow \hat{I} + \frac{\bv{1}_{\Omega}(\bv{x})f(\bv{x})}{n}$</li>
+        </ul>
+    </div>
+    <div class="return">$\hat{I}$</div>
+</div>
+
 <p>Now as one should ask, how does this randomized algorithm stack up against the true integral value? Can we guarantee with any sort of confidence a desired accuracy? With that, we need to state and make use of the following well known result, \textit{Hoeffding's Inequality}.</p>
 
 <div class="theorem">
@@ -60,7 +77,7 @@ categories: algorithms math randomization probability experimental theory
 
 \[|\hat{I} - I| < V(\mathcal{H}) (M_u - M_L)\sqrt{\frac{1}{2n}\log{\left(\frac{2}{\delta}\right)}}\]
 
-<p>This inequality gives us some interesting insights. At a high level, the error gets worse the more confidence we desire from the randomized algorithm. Further, the error decays as $\sqrt{n}$ increases, which is not terribly fast. specifically that the error is not only inversely proportional to $\sqrt{n}$, but we have a $sqrt{\log\left(1/\delta\right)}$ dependence in the error as If we assume $\epsilon$ and $\delta$ are fixed, we can solve the equality for $n$, giving us</p>
+<p>This inequality gives us some interesting insights. At a high level, the error gets worse the more confidence we desire from the randomized algorithm. Further, the error decays as $\sqrt{n}$ increases, which is not terribly fast. specifically that the error is not only inversely proportional to $\sqrt{n}$, but we have a $\sqrt{\log\left(1/\delta\right)}$ dependence in the error as If we assume $\epsilon$ and $\delta$ are fixed, we can solve the equality for $n$, giving us</p>
 
 \[n = \frac{1}{2}\epsilon^{-2}V(\mathcal{H})^2 \left(M_U - M_L\right)^2 \log{\left(\frac{2}{\delta}\right)}\]
 
