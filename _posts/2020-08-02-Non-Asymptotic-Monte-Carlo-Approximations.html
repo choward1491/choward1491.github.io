@@ -32,7 +32,7 @@ categories: algorithms math randomization probability experimental theory
 <p>This result actually gives us some insight for a randomized algorithm that can approximate the integral in question! In particular, suppose we randomly sample $n$ points $\lbrace \bv{x}_i \rbrace_{i=1}^n$ from $\mathcal{H}$ uniformly and independently. We will then maintain a sum where for each $\bv{x}_i \in \Omega$, we add $f(\bv{x}_i)$ to that sum and otherwise add nothing. After doing this for each point, we divide the result by $n$ and multiply by $V(\mathcal{H})$ to get our integral estimate $\hat{I}$. This algorithm is compactly described below:</p>
 
 <div class="algorithm">
-    <div class="algorithm_name" text="Monte Carlo Integral Approximation"></div>
+    <div class="algorithm_name" text="MC Integral Approximation"></div>
     <div class="algo_input">$\left(f(\bv{x}), \bv{1}_{\Omega}(\bv{x}), \mathcal{H}, n\right)$</div>
     <div class="algo_output">$\hat{I}$, estimate for integral value</div>
     <p>$\hat{I} := 0$ <span class="my_comment">initialize integral estimate to $0$</span></p>
@@ -45,7 +45,7 @@ categories: algorithms math randomization probability experimental theory
     <div class="return">$V(\mathcal{H})\hat{I}$</div>
 </div>
 
-<p>Now as one should ask, how does this randomized algorithm stack up against the true integral value? Can we guarantee with any sort of confidence a desired accuracy? With that, we need to state and make use of the following well known result, \textit{Hoeffding's Inequality}.</p>
+<p>Now as one should ask, how does this randomized algorithm stack up against the true integral value? Can we guarantee with any sort of confidence a desired accuracy? With that, we need to state and make use of the following well known result, <i>Hoeffding's Inequality</i>.</p>
 
 <div class="theorem">
 	<div class="theorem_name" text="Hoeffding's Inequality"></div>
