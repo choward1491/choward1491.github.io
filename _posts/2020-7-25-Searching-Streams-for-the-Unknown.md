@@ -34,9 +34,10 @@ Before we get to the more interesting algorithm, let us consider what might be v
     <div class="algorithm_name" text="Naive Number Search"></div>
     <div class="algo_input">$(S, X)$</div>
     <div class="algo_output">$(r)$</div>
-    <p>$c := 0$ <span class="my_comment">counter</span></p>
+    <p>$i := 1$ <span class="my_comment">index counter</span></p>
+    <p>$c := 0$ <span class="my_comment">instance counter</span></p>
     <p>$r := 1$ <span class="my_comment">representative variable</span></p>
-    <div class="for_loop"> $i$ from $1$ to $n$
+    <div class="while_loop"> $c < X$
         <ul>
             <li>Reset stream $S$</li>
             <li>Read in stream $S$ until we reach element $s_i$</li>
@@ -44,16 +45,7 @@ Before we get to the more interesting algorithm, let us consider what might be v
             <li>Reset stream $S$</li>
             <li>Set $c \leftarrow 0$ </li>
             <li>Read in stream $S$ and set $c \leftarrow c + 1$ for each value that matches $r$</li>
-            <li>
-                <div class="if_cond"> $c \geq X$
-                    <ul>
-                        <li>
-                            <div class="return">$r$</div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="endif"></div>
-            </li>
+            <li>$i \leftarrow i + 1$</li>
         </ul>
     </div>
     <!--<div class="return">$(\text{NaN})$ <span class="my_comment">if no number exists, return not a number</span></div>-->
