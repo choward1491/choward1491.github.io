@@ -48,7 +48,7 @@ Before we get to the more interesting algorithm, let us consider what might be v
             <li>$i \leftarrow i + 1$</li>
         </ul>
     </div>
-    <!--<div class="return">$(\text{NaN})$ <span class="my_comment">if no number exists, return not a number</span></div>-->
+    <div class="return">$r$</div>
 </div>
 
 #### Some Analysis
